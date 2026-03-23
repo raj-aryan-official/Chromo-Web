@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Mail, Lock, LogIn, AlertCircle } from 'lucide-react';
+import { Mail, Lock, LogIn, AlertCircle, Paintbrush } from 'lucide-react';
 import { useNavigate, Link, useLocation } from 'react-router-dom';
 import { signInWithEmailAndPassword } from 'firebase/auth';
 import { auth } from '../../firebase';
@@ -58,6 +58,14 @@ const Login = () => {
       {/* Background ambient blobs */}
       <div className={styles.blob1}></div>
       <div className={styles.blob2}></div>
+
+      {/* App Logo and Brand - Amazon style */}
+      <Link to="/" className={styles.logoOuter}>
+        <div className={styles.logoIconLarge}>
+          <Paintbrush size={32} color="#00C9FF" />
+        </div>
+        <span className={styles.logoTextLarge}>Chromo<span className={styles.logoSuffix}>.in</span></span>
+      </Link>
 
       <div className={styles.formCard}>
         <div className={styles.header}>

@@ -1,6 +1,7 @@
 .container {
   min-height: 100vh;
   display: flex;
+  flex-direction: column;
   align-items: center;
   justify-content: center;
   background: radial-gradient(circle at 50% 50%, #0a0a1a 0%, #05050c 100%);
@@ -9,6 +10,45 @@
   font-family: 'Inter', sans-serif;
   color: #fff;
   padding: 2rem;
+}
+
+.logoOuter {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 25px;
+  text-decoration: none;
+  z-index: 10;
+  transition: transform 0.3s ease;
+}
+
+.logoOuter:hover {
+  transform: scale(1.05);
+}
+
+.logoIconLarge {
+  background: rgba(0, 201, 255, 0.1);
+  padding: 10px;
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid rgba(0, 201, 255, 0.3);
+}
+
+.logoTextLarge {
+  font-size: 2.2rem;
+  font-weight: 900;
+  color: #fff;
+  letter-spacing: -1px;
+}
+
+.logoSuffix {
+  font-size: 1.2rem;
+  font-weight: 400;
+  color: #00C9FF;
+  vertical-align: super;
+  margin-left: 2px;
 }
 
 .blob1 {
