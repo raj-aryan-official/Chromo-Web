@@ -1,0 +1,116 @@
+.pageWrapper {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  background: #05050c; /* Global dark mode */
+}
+
+.container {
+  flex: 1;
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 3rem 1rem;
+  width: 100%;
+}
+
+.checkoutCard {
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 8px;
+  padding: 2rem;
+  color: #fff;
+}
+
+.checkoutCard h1 {
+  font-size: 1.5rem;
+  margin-bottom: 1.5rem;
+  padding-bottom: 0.5rem;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.accordionGroup {
+  display: flex;
+  flex-direction: column;
+  gap: 1px;
+  background: rgba(255, 255, 255, 0.1);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  border-radius: 8px;
+  overflow: hidden;
+}
+
+.paymentRow {
+  padding: 1.25rem;
+  background: #0f1111;
+  display: flex;
+  align-items: flex-start;
+  gap: 1rem;
+}
+
+.activeRow {
+  background: rgba(255, 153, 51, 0.05); /* Subtle amazon yellow glow */
+}
+
+.disabledRow {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.radioControl input {
+  width: 18px;
+  height: 18px;
+  margin-top: 2px;
+  accent-color: #febd69;
+}
+
+.paymentInfo {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+}
+
+.paymentTitle {
+  font-weight: 700;
+  font-size: 1rem;
+  color: #fff;
+}
+
+.paymentSub {
+  font-size: 0.85rem;
+  color: #9ca3af;
+}
+
+.fakeSelect {
+  margin-top: 0.5rem;
+  padding: 0.4rem;
+  background: #222;
+  border: 1px solid #444;
+  color: #888;
+  border-radius: 4px;
+  cursor: not-allowed;
+  max-width: 200px;
+}
+
+.actionFooter {
+  margin-top: 2rem;
+  padding-top: 1.5rem;
+  border-top: 1px solid rgba(255, 255, 255, 0.1);
+  display: flex;
+  justify-content: flex-end;
+}
+
+.usePaymentBtn {
+  background: #ffd814;
+  color: #0f1111;
+  padding: 0.75rem 1.5rem;
+  border-radius: 8px;
+  border: none;
+  font-weight: 700;
+  font-size: 1rem;
+  cursor: pointer;
+  box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+  transition: background 0.2s;
+}
+
+.usePaymentBtn:hover {
+  background: #f7ca00;
+}

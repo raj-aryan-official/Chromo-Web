@@ -1,0 +1,274 @@
+/* Core Page CSS previously built + Address Selection Modifiers */
+.pageWrapper {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  background-color: #05050c;
+  color: #fff;
+  font-family: 'Inter', sans-serif;
+}
+
+.container {
+  max-width: 1400px;
+  margin: 0 auto;
+  padding: 2rem;
+  width: 100%;
+  flex: 1;
+}
+
+.cartHeaderWrapper {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 2rem;
+  padding-bottom: 1rem;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.cartHeader h1 {
+  font-size: 2.5rem;
+  margin: 0 0 0.5rem;
+}
+
+.cartHeader p {
+  color: #9ca3af;
+  font-size: 1.1rem;
+  margin: 0;
+}
+
+.clearCartTopBtn {
+  background: transparent;
+  color: #ef4444;
+  border: 1px solid rgba(239, 68, 68, 0.3);
+  padding: 0.5rem 1.5rem;
+  border-radius: 8px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.clearCartTopBtn:hover {
+  background: rgba(239, 68, 68, 0.1);
+  border-color: #ef4444;
+}
+
+.emptyCart {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 4rem 2rem;
+  background: rgba(255, 255, 255, 0.02);
+  border-radius: 20px;
+  border: 1px dashed rgba(255, 255, 255, 0.1);
+  text-align: center;
+}
+
+.emptyCart h2 { margin: 1.5rem 0 0.5rem; }
+.emptyCart p { color: #9ca3af; margin-bottom: 2rem; }
+
+.continueBtn {
+  background: linear-gradient(135deg, #00C9FF, #0077FF);
+  color: white; border: none; border-radius: 12px;
+  padding: 1rem 2.5rem; font-size: 1.1rem; font-weight: 600;
+  cursor: pointer; transition: transform 0.2s;
+}
+
+.cartLayout {
+  display: grid;
+  grid-template-columns: 1fr 400px;
+  gap: 2.5rem;
+  align-items: flex-start;
+}
+
+@media (max-width: 1024px) {
+  .cartLayout { grid-template-columns: 1fr; }
+}
+
+.leftColumn {
+  display: flex;
+  flex-direction: column;
+}
+
+.rightColumnSticky {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+/* Address Manager Styles native to Cart */
+.addressManagerSection {
+  background: rgba(255, 255, 255, 0.02);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 16px;
+  padding: 1.5rem;
+}
+
+.addressHeaderRow {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 1.5rem;
+}
+
+.addressHeaderRow h2 {
+  font-size: 1.3rem; margin: 0;
+  display: flex; align-items: center; gap: 0.5rem; color: #fff;
+}
+
+.addInlineBtn {
+  background: rgba(0, 201, 255, 0.1);
+  color: #00C9FF;
+  border: 1px solid rgba(0, 201, 255, 0.3);
+  padding: 0.5rem 1rem;
+  border-radius: 8px;
+  display: flex; align-items: center; gap: 0.25rem;
+  cursor: pointer; font-weight: 600; transition: background 0.2s;
+}
+
+.addInlineBtn:hover { background: rgba(0, 201, 255, 0.2); }
+
+.savedAddressesGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 1rem;
+}
+
+.selectableAddressCard {
+  background: rgba(0, 0, 0, 0.2);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  padding: 1rem;
+  border-radius: 12px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.selectableAddressCard:hover { border-color: rgba(255, 255, 255, 0.2); }
+
+.selectedCard {
+  border-color: #00C9FF;
+  background: rgba(0, 201, 255, 0.05);
+  box-shadow: 0 0 0 1px #00C9FF;
+}
+
+.radioTop {
+  display: flex; align-items: center; gap: 0.75rem; margin-bottom: 0.5rem;
+}
+
+.radioControl {
+  width: 18px; height: 18px; border-radius: 50%;
+  border: 2px solid rgba(255, 255, 255, 0.3);
+  display: flex; align-items: center; justify-content: center;
+}
+
+.selectedCard .radioControl { border-color: #00C9FF; }
+
+.activeDot {
+  width: 10px; height: 10px; border-radius: 50%; background: #00C9FF;
+}
+
+.addressTag {
+  background: #374151; padding: 0.2rem 0.5rem; border-radius: 4px;
+  font-size: 0.75rem; font-weight: 600; text-transform: uppercase;
+}
+
+.selectedCard .addressTag { background: rgba(0, 201, 255, 0.2); color: #00C9FF; }
+
+.addressTextPreview {
+  font-size: 0.9rem; color: #d1d5db; line-height: 1.5; margin: 0;
+  padding-left: 1.8rem; /* Align under text */
+}
+
+/* Inline Add Form */
+.inlineAddForm {
+  background: rgba(0, 0, 0, 0.3); border: 1px solid rgba(255, 255, 255, 0.1);
+  padding: 1rem; border-radius: 12px; display: flex; flex-direction: column; gap: 1rem;
+}
+
+.tagSelector { display: flex; gap: 0.5rem; }
+
+.tagBtn {
+  background: transparent; border: 1px solid rgba(255, 255, 255, 0.2);
+  color: #9ca3af; padding: 0.4rem 1rem; border-radius: 20px; cursor: pointer;
+}
+
+.activeTag { background: #00C9FF; color: #05050c; border-color: #00C9FF; font-weight: 600; }
+
+.inlineAddressInput {
+  background: transparent; border: 1px solid rgba(255, 255, 255, 0.2);
+  border-radius: 8px; color: white; padding: 0.8rem; min-height: 80px; resize: vertical;
+}
+
+.inlineAddressInput:focus { outline: none; border-color: #00C9FF; }
+
+.inlineActions { display: flex; justify-content: flex-end; gap: 1rem; }
+
+.cancelInlineBtn { background: transparent; border: none; color: #9ca3af; cursor: pointer; }
+.saveInlineBtn { background: #00C9FF; color: #05050c; border: none; padding: 0.5rem 1.5rem; border-radius: 8px; font-weight: 600; cursor: pointer; }
+
+/* Item List Re-Import */
+.itemsList h2 { font-size: 1.3rem; margin: 0 0 1rem; }
+.cartItemCard {
+  display: flex; gap: 1.5rem; background: rgba(255, 255, 255, 0.02);
+  border: 1px solid rgba(255, 255, 255, 0.08); border-radius: 16px; padding: 1.5rem;
+  margin-bottom: 1rem;
+}
+
+.colorThumbnail {
+  width: 120px; height: 120px; border-radius: 12px; flex-shrink: 0;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.itemDetails { flex: 1; display: flex; flex-direction: column; }
+.itemName { font-size: 1.2rem; margin: 0 0 0.25rem; }
+.itemBrand { color: #00C9FF; font-size: 0.9rem; margin: 0 0 1rem; }
+.itemSpecs { display: flex; gap: 1rem; margin-bottom: 1.5rem; }
+.specBadge { background: rgba(255, 255, 255, 0.1); padding: 0.25rem 0.75rem; border-radius: 8px; font-size: 0.85rem; font-weight: 500; }
+.stockText { color: #92FE9D; font-size: 0.85rem; align-self: center; }
+.actionsRow { display: flex; align-items: center; gap: 1.5rem; margin-top: auto; }
+
+.qtyControl {
+  display: flex; align-items: center; gap: 0.75rem; background: rgba(0, 0, 0, 0.3);
+  padding: 0.2rem; border-radius: 8px; border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.qtyBtn {
+  background: transparent; color: #fff; border: none; cursor: pointer;
+  display: flex; align-items: center; justify-content: center; padding: 0.25rem;
+  border-radius: 4px; transition: background 0.2s;
+}
+
+.qtyBtn:hover:not(:disabled) { background: rgba(255, 255, 255, 0.1); }
+.qtyBtn:disabled { color: rgba(255, 255, 255, 0.2); cursor: not-allowed; }
+
+.qtyTextValue { width: 20px; text-align: center; font-weight: 600; font-size: 0.95rem; }
+
+.removeBtn { background: transparent; border: none; color: #ef4444; display: flex; align-items: center; gap: 0.5rem; cursor: pointer; padding: 0; }
+.removeBtn:hover { text-decoration: underline; }
+.priceBlock { text-align: right; font-weight: 700; font-size: 1.4rem; }
+
+/* Summary Imports */
+.summaryCard {
+  background: rgba(255, 255, 255, 0.02); border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 20px; padding: 2rem;
+}
+
+.summaryCard h2 { font-size: 1.5rem; margin: 0 0 1.5rem; }
+.summaryRow { display: flex; justify-content: space-between; margin-bottom: 1rem; color: #d1d5db; }
+.freeText { color: #92FE9D; font-weight: 600; }
+
+.deliveryDestination {
+  background: rgba(0, 0, 0, 0.3); padding: 1rem; border-radius: 8px; margin-top: 1rem;
+}
+.destSub { margin: 0; color: #9ca3af; font-size: 0.85rem; }
+.destTag { margin: 0.25rem 0 0; font-size: 0.95rem; color: #FFF; }
+
+.divider { height: 1px; background: rgba(255, 255, 255, 0.1); margin: 1.5rem 0; }
+.totalRow { font-size: 1.4rem; font-weight: 700; color: #fff; margin-bottom: 2rem; }
+
+.checkoutBtn {
+  width: 100%; background: #FFD814; color: #111; border: none; border-radius: 12px;
+  padding: 1.1rem; font-size: 1.1rem; font-weight: 600; cursor: pointer; transition: background 0.2s; margin-bottom: 1rem;
+}
+.checkoutBtn:hover:not(:disabled) { background: #F7CA00; }
+.checkoutBtn:disabled { background: rgba(255, 255, 255, 0.1); color: #6b7280; cursor: not-allowed; }
+.guaranteeText { text-align: center; font-size: 0.8rem; color: #6b7280; }

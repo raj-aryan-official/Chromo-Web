@@ -1,8 +1,12 @@
 require('dotenv').config();
+const app = require('./app');
 const connectDB = require('./database/connection');
 
-// Connect to database
+// Connect to MongoDB
 connectDB();
 
-// A simple server setup to keep the process running briefly if needed
-// or just exit if we only want to test connection
+const PORT = process.env.PORT || 5000;
+
+app.listen(PORT, () => {
+  console.log(`Server is successfully running and listening on port ${PORT}`);
+});

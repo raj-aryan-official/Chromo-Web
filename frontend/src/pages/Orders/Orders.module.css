@@ -1,0 +1,406 @@
+.pageWrapper {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  background: #05050c; /* Chromo global dark mode */
+  color: #fff;
+  font-family: inherit;
+}
+
+.container {
+  flex: 1;
+  max-width: 1000px;
+  margin: 0 auto;
+  padding: 4rem 1rem 4rem 1rem;
+  width: 100%;
+}
+
+/* Page Header & Top Nav */
+.breadcrumb {
+  font-size: 0.85rem;
+  color: #9ca3af;
+  margin-bottom: 0.5rem;
+}
+.redText {
+  color: #00C9FF; /* Chromo neon blue */
+}
+
+.titleRow {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 2rem;
+}
+
+.pageTitle {
+  font-size: 2rem;
+  font-weight: 700;
+  margin: 0;
+  color: #fff;
+}
+
+.searchBox {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.searchInputWrapper {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+.searchIcon {
+  position: absolute;
+  left: 12px;
+  color: #9ca3af;
+}
+.searchInput {
+  padding: 0.5rem 0.5rem 0.5rem 2.2rem;
+  font-size: 0.9rem;
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  color: #fff;
+  border-radius: 8px;
+  width: 350px;
+  transition: all 0.3s ease;
+}
+.searchInput:focus {
+  outline: none;
+  border-color: #7BC5FA;
+  box-shadow: 0 0 10px rgba(123, 197, 250, 0.2);
+  background: rgba(255, 255, 255, 0.08);
+}
+
+.searchBtn {
+  background: #7BC5FA;
+  color: #05050c;
+  border: none;
+  border-radius: 12px;
+  padding: 0.5rem 1.4rem;
+  font-size: 0.95rem;
+  font-weight: 700;
+  cursor: pointer;
+  box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+  transition: transform 0.2s, box-shadow 0.2s, background 0.2s;
+}
+.searchBtn:hover {
+  background: #6ab8f0;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 15px rgba(123, 197, 250, 0.3);
+}
+
+.tabsStrip {
+  display: flex;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  margin-bottom: 1.5rem;
+  gap: 2rem;
+}
+
+.tabBtn {
+  background: none;
+  border: none;
+  font-size: 1rem;
+  color: #9ca3af;
+  padding: 0.75rem 0;
+  margin-bottom: -1px;
+  cursor: pointer;
+  transition: color 0.3s;
+}
+.tabBtn:hover {
+  color: #00C9FF;
+}
+
+.activeTab {
+  color: #fff;
+  font-weight: 700;
+  border-bottom: 2px solid #00C9FF; /* Neon underline */
+}
+.activeTab:hover {
+  color: #fff;
+}
+
+.filterRow {
+  margin-bottom: 2rem;
+  font-size: 0.9rem;
+  color: #ccc;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.yearSelect {
+  padding: 0.4rem 1rem 0.4rem 0.5rem;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 8px;
+  background: rgba(255, 255, 255, 0.05);
+  color: #fff;
+  font-size: 0.9rem;
+  cursor: pointer;
+}
+
+.yearSelect option {
+  background: #05050c; /* Force dark background for native browser drop down */
+  color: #fff;
+}
+
+/* Chromo Premium Order Card */
+.ordersList {
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+}
+
+.amazonOrderCard {
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 12px;
+  overflow: hidden;
+  background: rgba(255, 255, 255, 0.02);
+  backdrop-filter: blur(10px);
+}
+
+/* Card Header */
+.cardHeader {
+  background-color: rgba(255, 255, 255, 0.04);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  padding: 1rem 1.5rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+}
+
+.headerLeftGroup {
+  display: flex;
+  gap: 3rem;
+}
+
+.headerBlock {
+  display: flex;
+  flex-direction: column;
+  gap: 0.3rem;
+}
+
+.headLabel {
+  font-size: 0.75rem;
+  color: #9ca3af;
+  font-weight: 700;
+  letter-spacing: 0.5px;
+}
+
+.headValue {
+  font-size: 0.95rem;
+  color: #fff;
+  font-weight: 500;
+}
+
+.headValueLink {
+  font-size: 0.95rem;
+  color: #00C9FF;
+  cursor: pointer;
+  transition: color 0.2s;
+}
+.headValueLink:hover {
+  color: #fff;
+  text-decoration: underline;
+}
+
+.headerRightBlock {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 0.3rem;
+}
+
+.headLabelRight {
+  font-size: 0.85rem;
+  color: #ccc;
+}
+
+.subLinks {
+  display: flex;
+  gap: 0.5rem;
+  align-items: center;
+}
+.separator {
+  color: rgba(255, 255, 255, 0.2);
+}
+
+/* Card Body */
+.cardBody {
+  padding: 1.5rem;
+}
+
+.statusRow {
+  margin-bottom: 1.5rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+}
+
+.statusLeft {
+  display: flex;
+  flex-direction: column;
+}
+
+.deliveryHeading {
+  font-size: 1.25rem;
+  font-weight: 700;
+  color: #fff;
+  margin: 0 0 0.3rem 0;
+}
+
+.deliverySubtext {
+  font-size: 0.9rem;
+  color: #9ca3af;
+  margin: 0;
+}
+
+.itemsBlock {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+.itemRow {
+  display: flex;
+  gap: 1.5rem;
+}
+
+.itemImageWrapper {
+  width: 100px;
+  flex-shrink: 0;
+}
+
+.itemColorBox {
+  width: 100px;
+  height: 100px;
+  border-radius: 8px;
+  box-shadow: 0 4px 15px rgba(0,0,0,0.5);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.itemContent {
+  display: flex;
+  flex-direction: column;
+  padding-top: 0.2rem;
+}
+
+.itemLinkText {
+  color: #fff;
+  font-size: 1rem;
+  line-height: 1.4;
+  text-decoration: none;
+  font-weight: 600;
+  margin-bottom: 0.5rem;
+  transition: color 0.2s;
+}
+.itemLinkText:hover {
+  color: #00C9FF;
+}
+
+.returnText {
+  font-size: 0.85rem;
+  color: #9ca3af;
+  margin-bottom: 1rem;
+}
+
+.itemActionRow {
+  display: flex;
+  gap: 1rem;
+  align-items: center;
+}
+
+.actionBtnOutlineLong {
+  background: transparent;
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  border-radius: 8px;
+  padding: 0.5rem 1.2rem;
+  font-size: 0.9rem;
+  color: #fff;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  width: 100%;
+}
+.actionBtnOutlineLong:hover {
+  background: rgba(255, 255, 255, 0.1);
+  border-color: #fff;
+}
+
+.actionBtnOutline {
+  background: transparent;
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  border-radius: 8px;
+  padding: 0.5rem 1.2rem;
+  font-size: 0.9rem;
+  color: #fff;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+.actionBtnOutline:hover {
+  background: rgba(255, 255, 255, 0.1);
+  border-color: #fff;
+}
+
+.buyAgainPill {
+  background: #00C9FF;
+  border: none;
+  border-radius: 8px;
+  padding: 0.5rem 1.2rem;
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: #05050c;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  transition: transform 0.2s, box-shadow 0.2s;
+}
+.buyAgainPill:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 15px rgba(0, 201, 255, 0.4);
+}
+
+.reloadIcon {
+  width: 16px;
+  height: 16px;
+  fill: #05050c;
+}
+
+/* Empty or Loading States */
+.loadingText { color: #ccc; }
+.contentBox {
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 12px;
+  padding: 3rem;
+  text-align: center;
+}
+.clearSearchBtn {
+  background: transparent;
+  color: #00C9FF;
+  border: 1px solid #00C9FF;
+  border-radius: 8px;
+  padding: 0.5rem 1.2rem;
+  margin-top: 1rem;
+  cursor: pointer;
+  font-weight: 600;
+  transition: background 0.2s;
+}
+.clearSearchBtn:hover {
+  background: rgba(0, 201, 255, 0.1);
+}
+
+@media (max-width: 850px) {
+  .cardHeader {
+    flex-direction: column;
+    gap: 1.5rem;
+  }
+  .headerRightBlock {
+    align-items: flex-start;
+  }
+  .titleRow {
+     flex-direction: column;
+     align-items: flex-start;
+     gap: 1.5rem;
+  }
+}

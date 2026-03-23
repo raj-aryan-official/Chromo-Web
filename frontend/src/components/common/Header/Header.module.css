@@ -1,0 +1,178 @@
+.header {
+  background: #0f1111; /* Sleek Amazon-style deep gray/black */
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  position: sticky;
+  top: 0;
+  z-index: 1000;
+  padding: 0.5rem 0;
+  color: #fff;
+}
+
+.container {
+  max-width: 100%;
+  margin: 0;
+  padding: 0 1rem;
+  display: flex;
+  align-items: center;
+  gap: 1.5rem;
+}
+
+/* 1 & 2. Logo Group */
+.logoContainer {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  text-decoration: none;
+  padding: 0.25rem 0.5rem;
+  border: 1px solid transparent;
+  border-radius: 2px;
+}
+.logoContainer:hover {
+  border: 1px solid #fff;
+}
+.logoIcon {
+  width: 32px;
+  height: 32px;
+  background: linear-gradient(135deg, #00C9FF, #92FE9D);
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.logoText {
+  font-size: 1.5rem;
+  font-weight: 800;
+  color: #fff;
+  letter-spacing: -0.5px;
+}
+
+/* 3. Address Widget */
+.addressWidget {
+  display: flex;
+  align-items: flex-end;
+  gap: 0.25rem;
+  padding: 0.25rem 0.5rem;
+  border: 1px solid transparent;
+  border-radius: 2px;
+  cursor: pointer;
+}
+.addressWidget:hover { border: 1px solid #fff; }
+.addressIcon { margin-bottom: 2px; }
+.addressTextStack { display: flex; flex-direction: column; }
+.deliverToText { font-size: 0.75rem; color: #ccc; line-height: 1; margin-bottom: 2px; }
+.addressTag { font-size: 0.9rem; font-weight: 700; color: #fff; line-height: 1; }
+
+
+/* 4. Search Form */
+.searchForm {
+  flex: 1;
+  display: flex;
+  height: 40px;
+  border-radius: 4px;
+  overflow: hidden;
+}
+.searchForm:focus-within { box-shadow: 0 0 0 2px #f90, 0 0 0 3px #f90; }
+.searchInput {
+  flex: 1;
+  padding: 0 1rem;
+  font-size: 1rem;
+  border: none;
+  outline: none;
+  color: #111;
+}
+.searchSubmitBtn {
+  width: 45px;
+  background: #febd69;
+  border: none;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background 0.2s;
+}
+.searchSubmitBtn:hover { background: #f3a847; }
+
+
+/* 5, 6, 7. Nav Actions */
+.navActions {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.actionBlock {
+  display: flex;
+  align-items: center;
+  gap: 0.25rem;
+  text-decoration: none;
+  color: #fff;
+  padding: 0.5rem;
+  border: 1px solid transparent;
+  border-radius: 2px;
+}
+.actionBlock:hover { border: 1px solid #fff; }
+
+.actionIcon { display: none; /* Hide icons in desktop to perfectly mimic amazon text stacks occasionally */ }
+
+.actionTextStack { display: flex; flex-direction: column; }
+.actionTitleTop { font-size: 0.75rem; color: #fff; line-height: 1; margin-bottom: 2px; }
+.actionTitleBottom { font-size: 0.9rem; font-weight: 700; color: #fff; line-height: 1; }
+
+.cartBlock {
+  display: flex;
+  align-items: flex-end;
+  text-decoration: none;
+  color: #fff;
+  padding: 0.25rem 0.5rem;
+  border: 1px solid transparent;
+  border-radius: 2px;
+  gap: 0.2rem;
+}
+.cartBlock:hover { border: 1px solid #fff; }
+
+.cartIconWrapper {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+.badge {
+  position: absolute;
+  top: -8px;
+  right: -5px;
+  background: #f3a847;
+  color: #000;
+  font-size: 0.85rem;
+  font-weight: bold;
+  height: 20px;
+  min-width: 20px;
+  border-radius: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.cartLabel {
+  font-weight: 700;
+  font-size: 0.9rem;
+  margin-bottom: 2px;
+}
+
+/* Fallback auth buttons */
+.loginBtn, .registerBtn {
+  text-decoration: none;
+  font-weight: 600;
+  color: #fff;
+  padding: 0.5rem 1rem;
+}
+.registerBtn {
+  background: #febd69; color: #111; border-radius: 4px; border: none;
+}
+
+@media (max-width: 1024px) {
+  .addressWidget { display: none; }
+  .actionTitleTop { display: none; }
+}
+
+@media (max-width: 768px) {
+  .container { flex-wrap: wrap; }
+  .searchForm { order: 3; flex: 0 0 100%; margin-top: 0.5rem; }
+}
