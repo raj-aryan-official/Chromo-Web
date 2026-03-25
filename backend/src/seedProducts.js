@@ -11,19 +11,6 @@ const seedProducts = async () => {
 
   const products = [
     {
-      name: 'Bespoke AI EcoBubble Platinum',
-      company: 'Samsung',
-      type: 'Industrial Machining',
-      colorHex: '#121212',
-      description: 'Smart Choice completely automated structural machine mimicking user required styling.',
-      rating: 4.2,
-      reviewCount: 1246,
-      variants: [
-        { weight: '8kg', price: 35000 },
-        { weight: '12kg', price: 44990 }
-      ]
-    },
-    {
       name: 'Midnight Blue Enamel',
       company: 'Asian Paints',
       type: 'Interior Emulsion',

@@ -3,6 +3,7 @@ import { Link, useNavigate, useSearchParams } from 'react-router-dom';
 import { ShoppingCart, User, Paintbrush, MapPin, Search, Package } from 'lucide-react';
 import { useAuth } from '../../../context/AuthContext';
 import { useCart } from '../../../context/CartContext';
+import API_URL from '../../../config';
 import styles from './Header.module.css';
 
 const Header = () => {
@@ -24,7 +25,7 @@ const Header = () => {
   useEffect(() => {
     if (currentUser) {
       // Fetch user profile to get default address
-      fetch(`http://localhost:5000/api/users/${currentUser.uid}`)
+      fetch(`${API_URL}/api/users/${currentUser.uid}`)
         .then(res => res.json())
         .then(data => {
           if (data && data.addresses && data.addresses.length > 0) {

@@ -5,6 +5,7 @@ import { useCart } from '../../context/CartContext';
 import styles from './ProductPage.module.css';
 import Header from '../../components/common/Header/Header';
 import Footer from '../../components/common/Footer/Footer';
+import API_URL from '../../config';
 
 const ProductPage = () => {
   const { id } = useParams();
@@ -20,7 +21,7 @@ const ProductPage = () => {
   useEffect(() => {
     const fetchProduct = async () => {
       try {
-        const res = await fetch(`http://localhost:5000/api/products/${id}`);
+        const res = await fetch(`${API_URL}/api/products/${id}`);
         if (!res.ok) throw new Error('Product not found');
         const data = await res.json();
         setProduct(data);

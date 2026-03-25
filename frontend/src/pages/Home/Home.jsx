@@ -4,6 +4,7 @@ import { useNavigate, useSearchParams } from 'react-router-dom';
 import Header from '../../components/common/Header/Header';
 import Footer from '../../components/common/Footer/Footer';
 import { useCart } from '../../context/CartContext';
+import API_URL from '../../config';
 import styles from './Home.module.css';
 
 const Home = () => {
@@ -18,7 +19,7 @@ const Home = () => {
   const { addToCart } = useCart();
 
   useEffect(() => {
-    fetch('http://localhost:5000/api/products')
+    fetch(`${API_URL}/api/products`)
       .then(res => res.json())
       .then(data => {
         setPaintProducts(data);

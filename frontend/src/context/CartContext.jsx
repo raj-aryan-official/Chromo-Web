@@ -1,6 +1,7 @@
 import React, { createContext, useContext, useState, useEffect } from 'react';
 import { useAuth } from './AuthContext';
 import { useNavigate } from 'react-router-dom';
+import API_URL from '../config';
 
 const CartContext = createContext();
 
@@ -21,7 +22,7 @@ export function CartProvider({ children }) {
       return;
     }
     try {
-      const res = await fetch(`http://localhost:5000/api/cart/${currentUser.uid}`);
+      const res = await fetch(`${API_URL}/api/cart/${currentUser.uid}`);
       if (res.ok) {
         const data = await res.json();
         setCart(data);
@@ -44,7 +45,7 @@ export function CartProvider({ children }) {
       return false;
     }
     try {
-      const res = await fetch(`http://localhost:5000/api/cart/${currentUser.uid}`, {
+      const res = await fetch(`${API_URL}/api/cart/${currentUser.uid}`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ productId, variant, quantity })
@@ -66,7 +67,7 @@ export function CartProvider({ children }) {
   const removeFromCart = async (itemId) => {
     if (!currentUser) return false;
     try {
-      const res = await fetch(`http://localhost:5000/api/cart/${currentUser.uid}/item/${itemId}`, { method: 'DELETE' });
+      const res = await fetch(`${API_URL}/api/cart/${currentUser.uid}/item/${itemId}`, { method: 'DELETE' });
       if (res.ok) {
         const data = await res.json();
         setCart(data);
@@ -84,7 +85,7 @@ export function CartProvider({ children }) {
   const clearCart = async () => {
     if (!currentUser) return false;
     try {
-      const res = await fetch(`http://localhost:5000/api/cart/${currentUser.uid}/clear`, { method: 'DELETE' });
+      const res = await fetch(`${API_URL}/api/cart/${currentUser.uid}/clear`, { method: 'DELETE' });
       if (res.ok) {
         const data = await res.json();
         setCart(data);
@@ -101,7 +102,7 @@ export function CartProvider({ children }) {
   const updateQuantity = async (itemId, type) => {
     if (!currentUser) return false;
     try {
-      const res = await fetch(`http://localhost:5000/api/cart/${currentUser.uid}/item/${itemId}`, { 
+      const res = await fetch(`${API_URL}/api/cart/${currentUser.uid}/item/${itemId}`, { 
          method: 'PUT',
          headers: { 'Content-Type': 'application/json' },
          body: JSON.stringify({ type })
