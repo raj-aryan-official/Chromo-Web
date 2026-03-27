@@ -5,6 +5,5 @@
     "ext": "js,json",
     "ignore": [
         "src/**/*.test.js"
-    ],
-    "exec": "node src/server.js"
+    ]
 }
