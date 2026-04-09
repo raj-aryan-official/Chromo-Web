@@ -3,6 +3,7 @@ import { Mail, Lock, User, UserPlus, AlertCircle, Paintbrush } from 'lucide-reac
 import { useNavigate, Link } from 'react-router-dom';
 import { createUserWithEmailAndPassword, updateProfile } from 'firebase/auth';
 import { auth } from '../../firebase';
+import API_URL from '../../config';
 import styles from './Register.module.css';
 
 const Register = () => {
@@ -52,7 +53,7 @@ const Register = () => {
         
         // Save extra user details to MongoDB Backend
         try {
-          const res = await fetch('http://localhost:5000/api/users', {
+          const res = await fetch(`${API_URL}/api/users`, {
             method: 'POST',
             headers: {
               'Content-Type': 'application/json'

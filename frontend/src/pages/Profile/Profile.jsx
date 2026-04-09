@@ -7,6 +7,7 @@ import { useAuth } from '../../context/AuthContext';
 import styles from './Profile.module.css';
 import Navbar from '../../components/common/Navbar/Navbar';
 import Footer from '../../components/common/Footer/Footer';
+import API_URL from '../../config';
 
 const Profile = () => {
   const { currentUser } = useAuth();
@@ -32,7 +33,7 @@ const Profile = () => {
   const fetchUserData = async () => {
     if (!currentUser) return;
     try {
-      const response = await fetch(`http://localhost:5000/api/users/${currentUser.uid}`);
+      const response = await fetch(`${API_URL}/api/users/${currentUser.uid}`);
       if (response.ok) {
         const data = await response.json();
         setUserData(data);
@@ -41,7 +42,7 @@ const Profile = () => {
         setTempAltPhone(data.altPhone || '');
       } else if (response.status === 404) {
         // Fallback: If Firebase user exists but hasn't been synced to MongoDB yet, sync them now
-        const syncRes = await fetch(`http://localhost:5000/api/users`, {
+        const syncRes = await fetch(`${API_URL}/api/users`, {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({ 
@@ -83,7 +84,7 @@ const Profile = () => {
 
   const handleSaveName = async () => {
     try {
-      const res = await fetch(`http://localhost:5000/api/users/${currentUser.uid}`, {
+      const res = await fetch(`${API_URL}/api/users/${currentUser.uid}`, {
         method: 'PUT',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ name: tempName })
@@ -100,7 +101,7 @@ const Profile = () => {
 
   const handleSavePhone = async () => {
     try {
-      const res = await fetch(`http://localhost:5000/api/users/${currentUser.uid}`, {
+      const res = await fetch(`${API_URL}/api/users/${currentUser.uid}`, {
         method: 'PUT',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ phone: tempPhone })
@@ -114,7 +115,7 @@ const Profile = () => {
 
   const handleSaveAltPhone = async () => {
     try {
-      const res = await fetch(`http://localhost:5000/api/users/${currentUser.uid}`, {
+      const res = await fetch(`${API_URL}/api/users/${currentUser.uid}`, {
         method: 'PUT',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ altPhone: tempAltPhone })
@@ -130,7 +131,7 @@ const Profile = () => {
     if (!newAddressText.trim()) return;
     try {
       const updatedAddresses = [...(userData.addresses || []), { tag: newAddressTag, text: newAddressText, isDefault: userData.addresses?.length === 0 }];
-      const res = await fetch(`http://localhost:5000/api/users/${currentUser.uid}`, {
+      const res = await fetch(`${API_URL}/api/users/${currentUser.uid}`, {
         method: 'PUT',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ addresses: updatedAddresses })
@@ -150,7 +151,7 @@ const Profile = () => {
   const handleDeleteAddress = async (indexToDelete) => {
     try {
       const updatedAddresses = userData.addresses.filter((_, i) => i !== indexToDelete);
-      const res = await fetch(`http://localhost:5000/api/users/${currentUser.uid}`, {
+      const res = await fetch(`${API_URL}/api/users/${currentUser.uid}`, {
         method: 'PUT',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ addresses: updatedAddresses })

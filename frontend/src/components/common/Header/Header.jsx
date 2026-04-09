@@ -6,6 +6,7 @@ import {
 } from 'lucide-react';
 import { useAuth } from '../../../context/AuthContext';
 import { useCart } from '../../../context/CartContext';
+import API_URL from '../../../config';
 import styles from './Header.module.css';
 
 const Header = () => {
@@ -55,6 +56,26 @@ const Header = () => {
     const history = JSON.parse(localStorage.getItem('searchHistory') || '[]');
     setSearchHistory(history);
   }, []);
+
+  // Load user default address
+  useEffect(() => {
+    if (currentUser) {
+      // Fetch user profile to get default address
+      fetch(`${API_URL}/api/users/${currentUser.uid}`)
+        .then(res => res.json())
+        .then(data => {
+          if (data && data.addresses && data.addresses.length > 0) {
+            const defAddr = data.addresses.find(a => a.isDefault) || data.addresses[0];
+            if (defAddr && defAddr.tag) setDefaultAddress(defAddr.tag);
+          } else {
+             setDefaultAddress('Add an address');
+          }
+        })
+        .catch(err => console.error("Could not fetch address", err));
+    } else {
+      setDefaultAddress('Select delivery location');
+    }
+  }, [currentUser]);
 
   // Click outside detection
   useEffect(() => {

@@ -4,6 +4,7 @@ import Navbar from '../../components/common/Navbar/Navbar';
 import Footer from '../../components/common/Footer/Footer';
 import { useCart } from '../../context/CartContext';
 import { useAuth } from '../../context/AuthContext';
+import API_URL from '../../config';
 import { Heart, Eye, ArrowRight, Tag } from 'lucide-react';
 import styles from './Home.module.css';
 
@@ -16,7 +17,7 @@ const Home = () => {
   const { currentUser } = useAuth();
 
   useEffect(() => {
-    fetch('http://localhost:5000/api/products')
+    fetch(`${API_URL}/api/products`)
       .then(res => res.json())
       .then(data => {
         setFeaturedPaints(data.slice(0, 4));

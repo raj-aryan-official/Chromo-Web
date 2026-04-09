@@ -5,6 +5,7 @@ import { useCart } from '../../context/CartContext';
 import { Search } from 'lucide-react';
 import Navbar from '../../components/common/Navbar/Navbar';
 import Footer from '../../components/common/Footer/Footer';
+import API_URL from '../../config';
 import styles from './Orders.module.css';
 
 const Orders = () => {
@@ -21,7 +22,7 @@ const Orders = () => {
       setLoading(false);
       return;
     }
-    fetch(`http://localhost:5000/api/orders/${currentUser.uid}`)
+    fetch(`${API_URL}/api/orders/${currentUser.uid}`)
       .then(res => res.json())
       .then(data => {
         setOrders(data);

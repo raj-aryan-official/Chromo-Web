@@ -21,8 +21,6 @@ const seedProducts = async () => {
     const mongoUri = process.env.MONGO_URI || 'mongodb://127.0.0.1:27017/chromo';
     await mongoose.connect(mongoUri);
     console.log('Connected to DB for 100-Color Seeding...');
-
-    // Wipe Legacy / Old Mock Data (e.g., Washing Machines etc)
     await Product.deleteMany({});
     console.log('Cleared all prior products.');
 

@@ -6,6 +6,7 @@ import { useAuth } from '../../context/AuthContext';
 import styles from './Cart.module.css';
 import Navbar from '../../components/common/Navbar/Navbar';
 import Footer from '../../components/common/Footer/Footer';
+import API_URL from '../../config';
 
 const Cart = () => {
   const { cart, cartCount, removeFromCart, clearCart, updateQuantity } = useCart();
@@ -25,7 +26,7 @@ const Cart = () => {
     const loadProfile = async () => {
       if (!currentUser) return;
       try {
-        const response = await fetch(`http://localhost:5000/api/users/${currentUser.uid}`);
+        const response = await fetch(`${API_URL}/api/users/${currentUser.uid}`);
         if (response.ok) {
           const data = await response.json();
           setUserProfile(data);
@@ -35,7 +36,7 @@ const Cart = () => {
           }
         } else if (response.status === 404) {
           // Native fallback sync if User was on Firebase but not in MongoDB
-          const syncRes = await fetch(`http://localhost:5000/api/users`, {
+          const syncRes = await fetch(`${API_URL}/api/users`, {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({ 
@@ -58,7 +59,7 @@ const Cart = () => {
     if (!newAddressText.trim()) return;
     try {
       const updatedAddresses = [...(userProfile.addresses || []), { tag: newAddressTag, text: newAddressText, isDefault: userProfile.addresses?.length === 0 }];
-      const res = await fetch(`http://localhost:5000/api/users/${currentUser.uid}`, {
+      const res = await fetch(`${API_URL}/api/users/${currentUser.uid}`, {
         method: 'PUT',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ addresses: updatedAddresses })
