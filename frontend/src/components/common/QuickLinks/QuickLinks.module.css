@@ -1,0 +1,42 @@
+.bottomSection {
+  background: var(--bg-tertiary, rgba(0, 0, 0, 0.2));
+  border-top: 1px solid var(--border-color, rgba(255, 255, 255, 0.05));
+  padding: 0 2rem;
+  display: flex;
+  justify-content: center;
+  /* centering based on screenshot */
+}
+
+.quickLinks {
+  display: flex;
+  align-items: center;
+  max-width: 1400px;
+  margin: 0 auto;
+  gap: 2.5rem;
+  /* adjusted for screenshot layout */
+  overflow-x: auto;
+  white-space: nowrap;
+  scrollbar-width: none;
+}
+
+.quickLinks::-webkit-scrollbar {
+  display: none;
+}
+
+.quickLink {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  color: var(--text-secondary, #ccc);
+  text-decoration: none;
+  padding: 1rem 0;
+  font-size: 0.95rem;
+  /* slightly larger */
+  font-weight: 500;
+  transition: color 0.2s, transform 0.2s;
+}
+
+.quickLink:hover {
+  color: #00C9FF;
+  transform: translateY(-2px);
+}

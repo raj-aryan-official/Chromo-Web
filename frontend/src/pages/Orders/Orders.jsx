@@ -3,7 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../../context/AuthContext';
 import { useCart } from '../../context/CartContext';
 import { Search } from 'lucide-react';
-import Header from '../../components/common/Header/Header';
+import Navbar from '../../components/common/Navbar/Navbar';
 import Footer from '../../components/common/Footer/Footer';
 import styles from './Orders.module.css';
 
@@ -72,7 +72,7 @@ const Orders = () => {
 
   return (
     <div className={styles.pageWrapper}>
-      <Header />
+      <Navbar />
       <main className={styles.container}>
         
         {/* Amazon-style Page Header & Top Search */}

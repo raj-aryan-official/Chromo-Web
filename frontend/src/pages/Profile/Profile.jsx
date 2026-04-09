@@ -1,11 +1,11 @@
 import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { LogOut, User, MapPin, Mail, Loader2, AlertCircle, Edit2, Check, Plus, Trash2, Phone } from 'lucide-react';
+import { LogOut, User, MapPin, Mail, Loader2, AlertCircle, Edit2, Check, Plus, Trash2, Phone, Heart } from 'lucide-react';
 import { signOut } from 'firebase/auth';
 import { auth } from '../../firebase';
 import { useAuth } from '../../context/AuthContext';
 import styles from './Profile.module.css';
-import Header from '../../components/common/Header/Header';
+import Navbar from '../../components/common/Navbar/Navbar';
 import Footer from '../../components/common/Footer/Footer';
 
 const Profile = () => {
@@ -164,11 +164,30 @@ const Profile = () => {
     }
   };
 
+  const handleUnlike = async (productId) => {
+    try {
+      const res = await fetch(`http://localhost:5000/api/users/${currentUser.uid}/like`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ productId })
+      });
+      if (res.ok) {
+        // Remove locally from state
+        setUserData(prev => ({
+          ...prev,
+          likedPaints: prev.likedPaints.filter(p => (p._id || p) !== productId)
+        }));
+      }
+    } catch (err) {
+      console.error(err);
+    }
+  };
+
   if (loading) return <div className={styles.loadingContainer}><Loader2 className={styles.spinner} size={40} /><p>Loading profile...</p></div>;
 
   return (
     <div className={styles.container}>
-      <Header />
+      <Navbar />
       <div className={styles.profileWrapper}>
         <div className={styles.glowTop}></div>
         
@@ -296,6 +315,33 @@ const Profile = () => {
                 ))
               ) : (
                 <p className={styles.noAddresses}>No addresses saved yet.</p>
+              )}
+            </div>
+
+            {/* Liked Paints Section */}
+            <div className={styles.sectionHeaderSpacing}>
+              <h2 className={styles.sectionHeading} style={{marginTop: '3rem'}}>My Liked Paints <Heart size={20} color="#FF4757" fill="#FF4757" style={{marginLeft: '8px', display:'inline'}}/></h2>
+            </div>
+            <div className={styles.likedGrid}>
+              {userData?.likedPaints && userData.likedPaints.length > 0 ? (
+                userData.likedPaints.map((paint) => (
+                  <div key={paint._id} className={styles.likedCard} onClick={() => navigate(`/product/${paint._id}`)}>
+                    <div className={styles.likedColorDisplay} style={{ backgroundColor: paint.colorHex || '#FFD700' }}>
+                      <button 
+                        className={styles.unlikeBtn} 
+                        onClick={(e) => { e.stopPropagation(); handleUnlike(paint._id); }}
+                      >
+                        <Heart size={18} fill="#FF4757" color="#FF4757" />
+                      </button>
+                    </div>
+                    <div className={styles.likedInfo}>
+                      <h4 className={styles.likedName}>{paint.name}</h4>
+                      <span className={styles.likedCompany}>{paint.company}</span>
+                    </div>
+                  </div>
+                ))
+              ) : (
+                <p className={styles.noAddresses}>You haven't liked any paints yet. Explore the shop!</p>
               )}
             </div>
 

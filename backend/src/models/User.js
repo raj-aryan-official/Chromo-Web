@@ -29,7 +29,12 @@ const userSchema = new mongoose.Schema({
     type: String
   },
   // Allows the user to store multiple tagged delivery points
-  addresses: [addressSchema]
+  addresses: [addressSchema],
+  likedPaints: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Product' }],
+  savedPalettes: [{ 
+    name: { type: String, default: 'My Palette' }, 
+    colors: [{ type: String }] 
+  }]
 }, { timestamps: true });
 
 module.exports = mongoose.model('User', userSchema);

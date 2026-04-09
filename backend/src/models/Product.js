@@ -14,6 +14,7 @@ const productSchema = new mongoose.Schema({
   description: { type: String },
   rating: { type: Number, default: 0 },
   reviewCount: { type: Number, default: 0 },
+  tags: [{ type: String }],
   variants: [variantSchema]
 }, { timestamps: true });
 

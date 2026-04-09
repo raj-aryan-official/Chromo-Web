@@ -4,7 +4,7 @@ import { Trash2, ShoppingBag, MapPin, Plus, Minus } from 'lucide-react';
 import { useCart } from '../../context/CartContext';
 import { useAuth } from '../../context/AuthContext';
 import styles from './Cart.module.css';
-import Header from '../../components/common/Header/Header';
+import Navbar from '../../components/common/Navbar/Navbar';
 import Footer from '../../components/common/Footer/Footer';
 
 const Cart = () => {
@@ -80,7 +80,7 @@ const Cart = () => {
 
   return (
     <div className={styles.pageWrapper}>
-      <Header />
+      <Navbar />
       <main className={styles.container}>
         <div className={styles.cartHeaderWrapper}>
           <div className={styles.cartHeader}>

@@ -1,13 +1,21 @@
 const User = require('../models/User');
+const Product = require('../models/Product');
 
 const registerUser = async (req, res) => {
   try {
     const { firebaseUid, name, email, phone, altPhone, address } = req.body;
     
-    // Check if user already exists
     let user = await User.findOne({ firebaseUid });
     if (user) {
-      return res.status(400).json({ message: 'User already exists in MongoDB' });
+      return res.status(200).json(user);
+    }
+
+    let existingEmail = await User.findOne({ email });
+    if (existingEmail) {
+      // update firebaseUid if it changed
+      existingEmail.firebaseUid = firebaseUid;
+      await existingEmail.save();
+      return res.status(200).json(existingEmail);
     }
 
     const initialAddresses = [];
@@ -36,7 +44,7 @@ const registerUser = async (req, res) => {
 const getUserProfile = async (req, res) => {
   try {
     const { uid } = req.params;
-    const user = await User.findOne({ firebaseUid: uid });
+    const user = await User.findOne({ firebaseUid: uid }).populate('likedPaints');
     
     if (!user) {
       return res.status(404).json({ message: 'User not found in MongoDB' });
@@ -76,4 +84,45 @@ const updateUserProfile = async (req, res) => {
   }
 };
 
-module.exports = { registerUser, getUserProfile, updateUserProfile };
+const toggleLikePaint = async (req, res) => {
+  try {
+    const { uid } = req.params;
+    const { productId } = req.body;
+    
+    let user = await User.findOne({ firebaseUid: uid });
+    if (!user) return res.status(404).json({ message: 'User not found in MongoDB' });
+    
+    const index = user.likedPaints.findIndex(id => id.toString() === productId);
+    if (index === -1) {
+      user.likedPaints.push(productId);
+    } else {
+      user.likedPaints.splice(index, 1);
+    }
+    
+    await user.save();
+    res.status(200).json(user.likedPaints);
+  } catch (error) {
+    console.error("Toggle like error:", error);
+    res.status(500).json({ message: 'Server Error', error: error.message });
+  }
+};
+
+const savePalette = async (req, res) => {
+  try {
+    const { uid } = req.params;
+    const { colors, name } = req.body;
+    
+    let user = await User.findOne({ firebaseUid: uid });
+    if (!user) return res.status(404).json({ message: 'User not found in MongoDB' });
+    
+    user.savedPalettes.push({ name: name || 'My Palette', colors });
+    await user.save();
+    
+    res.status(200).json(user.savedPalettes);
+  } catch (error) {
+    console.error("Save palette error:", error);
+    res.status(500).json({ message: 'Server Error', error: error.message });
+  }
+};
+
+module.exports = { registerUser, getUserProfile, updateUserProfile, toggleLikePaint, savePalette };

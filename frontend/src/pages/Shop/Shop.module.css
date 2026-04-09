@@ -1,0 +1,109 @@
+.pageWrapper {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  background-color: var(--bg-secondary, #11111a);
+  color: var(--text-primary, #fff);
+}
+
+.mainContent {
+  flex: 1;
+  max-width: 1300px;
+  width: 100%;
+  margin: 0 auto;
+  padding: 4rem 2rem;
+}
+
+.header {
+  text-align: center;
+  margin-bottom: 4rem;
+}
+
+.header h1 {
+  font-size: 3.5rem;
+  margin-bottom: 1rem;
+  background: linear-gradient(135deg, #00C9FF 0%, #92FE9D 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.header p {
+  font-size: 1.2rem;
+  color: #aaa;
+  max-width: 600px;
+  margin: 0 auto;
+  line-height: 1.6;
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 2rem;
+}
+
+.categoryCard {
+  background: var(--bg-primary, rgba(5,5,12,0.85));
+  border: 1px solid var(--border-color, rgba(255,255,255,0.05));
+  padding: 2.5rem 2rem;
+  border-radius: 16px;
+  transition: all 0.3s;
+  display: flex;
+  flex-direction: column;
+}
+
+.categoryCard:hover {
+  transform: translateY(-10px);
+  background: rgba(255,255,255,0.02);
+  border-color: rgba(0, 201, 255, 0.4);
+  box-shadow: 0 15px 30px rgba(0, 201, 255, 0.1);
+}
+
+.iconWrapper {
+  font-size: 3rem;
+  margin-bottom: 1.5rem;
+  background: rgba(255,255,255,0.03);
+  width: 80px;
+  height: 80px;
+  border-radius: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.categoryCard h2 {
+  font-size: 1.3rem;
+  margin-bottom: 0.5rem;
+  color: #fff;
+}
+
+.categoryCard p {
+  color: #888;
+  line-height: 1.5;
+  margin-bottom: 2rem;
+  flex: 1; /* Pushes button to bottom */
+}
+
+.exploreBtn {
+  background: transparent;
+  border: none;
+  color: #00C9FF;
+  font-weight: bold;
+  font-size: 1rem;
+  cursor: pointer;
+  padding: 0;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  transition: gap 0.2s;
+}
+
+.categoryCard:hover .exploreBtn {
+  gap: 0.75rem;
+  text-decoration: underline;
+}
+
+@media (max-width: 768px) {
+  .header h1 {
+    font-size: 2.5rem;
+  }
+}

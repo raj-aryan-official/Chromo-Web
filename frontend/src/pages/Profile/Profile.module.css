@@ -60,6 +60,75 @@
 
 .header {
   text-align: center;
+}
+
+.likedGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+  gap: 1.5rem;
+}
+
+.likedCard {
+  background: var(--bg-tertiary, rgba(255,255,255,0.02));
+  border: 1px solid var(--border-color, rgba(255,255,255,0.05));
+  border-radius: 12px;
+  overflow: hidden;
+  cursor: pointer;
+  transition: transform 0.2s, border-color 0.2s;
+}
+
+.likedCard:hover {
+  transform: translateY(-5px);
+  border-color: rgba(255, 71, 87, 0.5);
+}
+
+.likedColorDisplay {
+  height: 100px;
+  width: 100%;
+  position: relative;
+}
+
+.unlikeBtn {
+  position: absolute;
+  top: 8px;
+  right: 8px;
+  background: rgba(0,0,0,0.5);
+  border: none;
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  backdrop-filter: blur(4px);
+  transition: transform 0.2s;
+}
+
+.unlikeBtn:hover {
+  transform: scale(1.1);
+}
+
+.likedInfo {
+  padding: 1rem;
+}
+
+.likedName {
+  font-size: 1rem;
+  font-weight: 600;
+  margin-bottom: 0.2rem;
+  color: #fff;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.likedCompany {
+  font-size: 0.8rem;
+  color: #888;
+}
+
+.header {
   padding: 2.5rem 2rem 1.5rem;
   border-bottom: 1px solid rgba(255, 255, 255, 0.05);
 }

@@ -1,9 +1,10 @@
 import React, { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
-import { Star, ShieldCheck, Truck, ShoppingCart, Minus, Plus } from 'lucide-react';
+import { Star, ShieldCheck, Truck, ShoppingCart, Minus, Plus, Heart } from 'lucide-react';
 import { useCart } from '../../context/CartContext';
+import { useAuth } from '../../context/AuthContext';
 import styles from './ProductPage.module.css';
-import Header from '../../components/common/Header/Header';
+import Navbar from '../../components/common/Navbar/Navbar';
 import Footer from '../../components/common/Footer/Footer';
 
 const ProductPage = () => {
@@ -16,6 +17,8 @@ const ProductPage = () => {
   const [selectedVariant, setSelectedVariant] = useState(null);
   const [quantity, setQuantity] = useState(1);
   const [adding, setAdding] = useState(false);
+  const [isLiked, setIsLiked] = useState(false);
+  const { currentUser } = useAuth();
 
   useEffect(() => {
     const fetchProduct = async () => {
@@ -34,7 +37,32 @@ const ProductPage = () => {
       }
     };
     fetchProduct();
-  }, [id]);
+
+    if (currentUser) {
+      fetch(`http://localhost:5000/api/users/${currentUser.uid}`)
+        .then(res => res.json())
+        .then(data => {
+          if (data.likedPaints && data.likedPaints.some(p => (p._id || p) === id)) {
+            setIsLiked(true);
+          }
+        });
+    }
+  }, [id, currentUser]);
+
+  const handleLikeToggle = async () => {
+    if (!currentUser) return alert("Please log in to like paints.");
+    
+    setIsLiked(!isLiked);
+    try {
+      await fetch(`http://localhost:5000/api/users/${currentUser.uid}/like`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ productId: id })
+      });
+    } catch(err) {
+      setIsLiked(!isLiked);
+    }
+  };
 
   const handleAddToCart = async () => {
     if (!product || !selectedVariant) return;
@@ -57,7 +85,7 @@ const ProductPage = () => {
 
   return (
     <div className={styles.pageWrapper}>
-      <Header />
+      <Navbar />
       <main className={styles.mainContainer}>
         
         {/* Breadcrumb Navigation */}
@@ -86,7 +114,17 @@ const ProductPage = () => {
 
           {/* Middle Column: Details (Amazon Style) */}
           <div className={styles.detailsColumn}>
-            <h1 className={styles.productTitle}>{product.name}</h1>
+            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start' }}>
+              <h1 className={styles.productTitle}>{product.name}</h1>
+              <button 
+                 onClick={handleLikeToggle}
+                 style={{ background: 'transparent', border: 'none', cursor: 'pointer', padding: '0.5rem', transition: 'transform 0.2s', alignSelf: 'center' }}
+                 onMouseEnter={(e) => e.currentTarget.style.transform = 'scale(1.1)'}
+                 onMouseLeave={(e) => e.currentTarget.style.transform = 'scale(1)'}
+              >
+                <Heart size={32} fill={isLiked ? "#FF4757" : "transparent"} color={isLiked ? "#FF4757" : "#fff"} />
+              </button>
+            </div>
             <a href="#" className={styles.companyLink}>Visit the {product.company} Store</a>
             
             <div className={styles.ratingRow}>

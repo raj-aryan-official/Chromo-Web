@@ -11,6 +11,14 @@ import PaymentSelection from './pages/Checkout/PaymentSelection';
 import ReviewOrder from './pages/Checkout/ReviewOrder';
 import ProductPage from './pages/ProductPage/ProductPage';
 import { CartProvider } from './context/CartContext';
+import PaletteStudio from './pages/PaletteStudio/PaletteStudio';
+import PaintCalculator from './pages/PaintCalculator/PaintCalculator';
+import ExpertConnect from './pages/ExpertConnect/ExpertConnect';
+import PaintGuide from './pages/PaintGuide/PaintGuide';
+import Shop from './pages/Shop/Shop';
+import Paints from './pages/Paints/Paints';
+import LikedPaints from './pages/LikedPaints/LikedPaints';
+import SavedPalettes from './pages/SavedPalettes/SavedPalettes';
 import './App.css'; // Global overriding styles if needed
 
 function App() {
@@ -28,6 +36,14 @@ function App() {
             <Route path="/checkout/review" element={<ReviewOrder />} />
             <Route path="/orders" element={<Orders />} />
             <Route path="/product/:id" element={<ProductPage />} />
+            <Route path="/palette-studio" element={<PaletteStudio />} />
+            <Route path="/calculator" element={<PaintCalculator />} />
+            <Route path="/expert" element={<ExpertConnect />} />
+            <Route path="/guide" element={<PaintGuide />} />
+            <Route path="/shop" element={<Shop />} />
+            <Route path="/paints" element={<Paints />} />
+            <Route path="/liked-paints" element={<LikedPaints />} />
+            <Route path="/saved-palettes" element={<SavedPalettes />} />
           </Routes>
         </CartProvider>
       </Router>

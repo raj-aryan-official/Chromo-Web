@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
 import { useAuth } from '../../context/AuthContext';
 import { useCart } from '../../context/CartContext';
-import Header from '../../components/common/Header/Header';
+import Navbar from '../../components/common/Navbar/Navbar';
 import Footer from '../../components/common/Footer/Footer';
 import styles from './ReviewOrder.module.css';
 
@@ -75,7 +75,7 @@ const ReviewOrder = () => {
 
   return (
     <div className={styles.pageWrapper}>
-      <Header />
+      <Navbar />
       
       {showSuccess && (
         <div className={styles.successOverlay}>

@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
-import Header from '../../components/common/Header/Header';
+import Navbar from '../../components/common/Navbar/Navbar';
 import Footer from '../../components/common/Footer/Footer';
 import styles from './PaymentSelection.module.css';
 
@@ -23,7 +23,7 @@ const PaymentSelection = () => {
 
   return (
     <div className={styles.pageWrapper}>
-      <Header />
+      <Navbar />
       <main className={styles.container}>
         <div className={styles.checkoutCard}>
           <h1>Select a payment method</h1>
