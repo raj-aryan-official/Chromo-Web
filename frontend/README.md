@@ -1,16 +1,53 @@
-# React + Vite
+# Chromo — Frontend
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+React + Vite frontend for the Chromo paint discovery platform.
 
-Currently, two official plugins are available:
+## Stack
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) (or [oxc](https://oxc.rs) when used in [rolldown-vite](https://vite.dev/guide/rolldown)) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+- **React 18** with JSX
+- **Vite 6** for dev server & bundling
+- **CSS Modules** for scoped styling
+- **Firebase Auth** for authentication
+- **Lucide React** for icons
 
-## React Compiler
+## Development
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+```bash
+npm install
+npm run dev      # http://localhost:5173
+npm run build    # Production build
+npm run preview  # Preview production build
+```
 
-## Expanding the ESLint configuration
+## Environment Variables
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+Create a `.env` file in this directory:
+
+```env
+VITE_API_URL=http://localhost:5000
+VITE_FIREBASE_API_KEY=...
+VITE_FIREBASE_AUTH_DOMAIN=...
+VITE_FIREBASE_PROJECT_ID=...
+VITE_FIREBASE_STORAGE_BUCKET=...
+VITE_FIREBASE_MESSAGING_SENDER_ID=...
+VITE_FIREBASE_APP_ID=...
+```
+
+## Key Pages
+
+| Route | Page |
+|---|---|
+| `/` | Home |
+| `/paints` | Paint Browser |
+| `/product/:id` | Product Detail |
+| `/palette-studio` | Palette Generator |
+| `/calculator` | Paint Calculator |
+| `/cart` | Shopping Cart |
+| `/checkout/review` | Checkout |
+| `/orders` | Order History |
+| `/profile` | User Profile |
+| `/liked-paints` | Liked Paints |
+| `/saved-palettes` | Saved Palettes |
+| `/admin` | Admin Dashboard |
+
+See the [root README](../README.md) for full documentation.

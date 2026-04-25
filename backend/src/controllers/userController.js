@@ -3,19 +3,23 @@ const Product = require('../models/Product');
 
 const registerUser = async (req, res) => {
   try {
+    console.log("=== Incoming register payload ===", req.body);
     const { firebaseUid, name, email, phone, altPhone, address } = req.body;
     
     let user = await User.findOne({ firebaseUid });
     if (user) {
+      console.log("Found user by firebaseUid", user.email);
       return res.status(200).json(user);
     }
 
-    let existingEmail = await User.findOne({ email });
-    if (existingEmail) {
-      // update firebaseUid if it changed
-      existingEmail.firebaseUid = firebaseUid;
-      await existingEmail.save();
-      return res.status(200).json(existingEmail);
+    if (email) {
+      let existingEmail = await User.findOne({ email });
+      if (existingEmail) {
+        console.log("Found existing user by email, syncing firebaseUid", email);
+        await User.updateOne({ _id: existingEmail._id }, { $set: { firebaseUid } });
+        existingEmail.firebaseUid = firebaseUid;
+        return res.status(200).json(existingEmail);
+      }
     }
 
     const initialAddresses = [];
@@ -23,20 +27,24 @@ const registerUser = async (req, res) => {
       initialAddresses.push({ tag: 'Home', text: address, isDefault: true });
     }
 
+    const safePhone = String(phone || '0000000000');
+    console.log("Creating new user. safePhone:", safePhone);
+
     user = new User({ 
       firebaseUid, 
-      name, 
-      email, 
-      phone: phone || '0000000000',
+      name: name || 'User', 
+      email: email || 'no-email@fallback.com', 
+      phone: safePhone,
       altPhone: altPhone || '',
       addresses: initialAddresses 
     });
     
     await user.save();
+    console.log("Successfully created new user", user.email);
     
     res.status(201).json(user);
   } catch (error) {
-    console.error("Register user error:", error);
+    console.error("Register user error details:", error);
     res.status(500).json({ message: 'Server Error', error: error.message });
   }
 };

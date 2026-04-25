@@ -2,7 +2,7 @@ import React, { useState, useEffect, useRef } from 'react';
 import { Link, useNavigate, useLocation } from 'react-router-dom';
 import { 
   ShoppingCart, User, Paintbrush, Search, Package, Menu, X, 
-  Mic, MicOff, Bell, Clock, Tag, Settings, LogOut, Heart
+  Mic, MicOff, Bell, Clock, Tag, Settings, LogOut, Heart, Shield
 } from 'lucide-react';
 import { useAuth } from '../../../context/AuthContext';
 import { useCart } from '../../../context/CartContext';
@@ -10,7 +10,7 @@ import API_URL from '../../../config';
 import styles from './Header.module.css';
 
 const Header = () => {
-  const { currentUser, logout } = useAuth();
+  const { currentUser, userRole, logout } = useAuth();
   const { cartCount, items } = useCart();
   const navigate = useNavigate();
   const location = useLocation();
@@ -18,6 +18,7 @@ const Header = () => {
   // Feature states
   const [isScrolled, setIsScrolled] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  const [defaultAddress, setDefaultAddress] = useState('Select delivery location');
   
   // Search feature states
   const [searchTerm, setSearchTerm] = useState('');
@@ -204,6 +205,30 @@ const Header = () => {
 
         {/* RIGHT: Actions */}
         <div className={styles.rightActions}>
+
+          {/* Admin Dashboard Button — always visible */}
+          <Link
+            to="/admin"
+            title="Admin Dashboard"
+            style={{
+              display: 'flex',
+              alignItems: 'center',
+              gap: '6px',
+              background: 'linear-gradient(135deg, #00C9FF, #92FE9D)',
+              color: '#05050c',
+              padding: '6px 16px',
+              borderRadius: '20px',
+              fontWeight: 700,
+              fontSize: '0.85rem',
+              textDecoration: 'none',
+              boxShadow: '0 0 14px rgba(0,201,255,0.5)',
+              letterSpacing: '0.3px'
+            }}
+          >
+            <Shield size={16} />
+            Admin
+          </Link>
+
           <div className={styles.bellContainer} ref={notifRef}>
             <button className={styles.actionBtn} onClick={() => setShowNotifications(!showNotifications)}>
               <Bell size={22} />
@@ -242,8 +267,12 @@ const Header = () => {
               <div className={styles.accountLinks}>
                 <Link to="/profile"><User size={18}/> My Account</Link>
                 <Link to="/orders"><Package size={18}/> Order History</Link>
-                <Link to="/profile"><Heart size={18}/> Saved Palettes</Link>
-                <Link to="/profile"><Settings size={18}/> Settings</Link>
+                <Link to="/liked-paints"><Heart size={18} fill="#ff4757" color="#ff4757" /> Liked Paints</Link>
+                <Link to="/saved-palettes"><Heart size={18}/> Saved Palettes</Link>
+                {userRole === 'admin' && (
+                  <Link to="/admin"><Shield size={18} color="#00C9FF" /> Admin Dashboard</Link>
+                )}
+                <Link to="/settings"><Settings size={18}/> Settings</Link>
                 <button className={styles.signOutBtn} onClick={handleLogout}><LogOut size={18}/> Sign Out</button>
               </div>
             </div>

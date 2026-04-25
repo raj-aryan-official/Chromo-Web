@@ -2,15 +2,16 @@ import React, { useState, useEffect, useRef } from 'react';
 import { Link, useNavigate, useLocation } from 'react-router-dom';
 import { 
   ShoppingCart, User, Paintbrush, Search, Package, Menu, X, 
-  Mic, MicOff, Bell, Clock, Tag, Settings, LogOut, Heart
+  Mic, MicOff, Bell, Clock, Tag, Settings, LogOut, Heart, Shield
 } from 'lucide-react';
 import { useAuth } from '../../../context/AuthContext';
 import { useCart } from '../../../context/CartContext';
 import QuickLinks from '../QuickLinks/QuickLinks';
+import API_URL from '../../../config';
 import styles from './Navbar.module.css';
 
 const Navbar = () => {
-  const { currentUser, logout } = useAuth();
+  const { currentUser, userRole, logout } = useAuth();
   const { cartCount, items } = useCart();
   const navigate = useNavigate();
   const location = useLocation();
@@ -29,11 +30,11 @@ const Navbar = () => {
   const [showAccountMenu, setShowAccountMenu] = useState(false);
   const [showNotifications, setShowNotifications] = useState(false);
   const [showCartPreview, setShowCartPreview] = useState(false);
-  const [notifications, setNotifications] = useState([
-    { id: 1, text: "Your order #1024 has shipped!", unread: true },
-    { id: 2, text: "New Palette Studio features available", unread: true },
-    { id: 3, text: "Save 20% on Matte finishes this weekend", unread: false }
-  ]);
+  const [notifications, setNotifications] = useState([]);
+  const [readIds, setReadIds] = useState(() => {
+    try { return new Set(JSON.parse(localStorage.getItem('readNotifIds') || '[]')); }
+    catch { return new Set(); }
+  });
   
   // Refs for click outside
   const searchRef = useRef(null);
@@ -56,6 +57,49 @@ const Navbar = () => {
     const history = JSON.parse(localStorage.getItem('searchHistory') || '[]');
     setSearchHistory(history);
   }, []);
+
+  // Fetch user orders and build real notifications
+  useEffect(() => {
+    if (!currentUser) { setNotifications([]); return; }
+    fetch(`${API_URL}/api/orders/${currentUser.uid}`)
+      .then(r => r.json())
+      .then(orders => {
+        if (!Array.isArray(orders)) return;
+        const notifs = orders.map(order => {
+          const shortId = order._id.toString().slice(-6).toUpperCase();
+          const statusIcon = {
+            'Processing': '🕐',
+            'Shipped': '🚚',
+            'Out for Delivery': '📦',
+            'Delivered': '✅',
+            'Cancelled': '❌'
+          }[order.status] || '📋';
+          const firstItem = order.items?.[0]?.name || 'your items';
+          const text = order.status === 'Processing'
+            ? `${statusIcon} Order #${shortId} placed — ${firstItem}${order.items?.length > 1 ? ` +${order.items.length - 1} more` : ''} · ₹${order.totalAmount?.toLocaleString('en-IN')}`
+            : `${statusIcon} Order #${shortId} is now ${order.status}`;
+          return { id: order._id, text, orderId: order._id, status: order.status, createdAt: order.createdAt };
+        });
+        // Sort newest first
+        notifs.sort((a,b) => new Date(b.createdAt) - new Date(a.createdAt));
+        setNotifications(notifs);
+      })
+      .catch(() => setNotifications([]));
+  }, [currentUser]);
+
+  const markAllRead = () => {
+    const allIds = notifications.map(n => n.id);
+    const newSet = new Set(allIds);
+    setReadIds(newSet);
+    localStorage.setItem('readNotifIds', JSON.stringify([...newSet]));
+  };
+
+  const markOneRead = (id) => {
+    const newSet = new Set(readIds);
+    newSet.add(id);
+    setReadIds(newSet);
+    localStorage.setItem('readNotifIds', JSON.stringify([...newSet]));
+  };
 
   // Click outside detection
   useEffect(() => {
@@ -123,7 +167,7 @@ const Navbar = () => {
     }
   };
 
-  const unreadCount = notifications.filter(n => n.unread).length;
+  const unreadCount = notifications.filter(n => !readIds.has(n.id)).length;
 
   return (
     <nav className={styles.navbar} style={isScrolled ? { boxShadow: '0 5px 20px rgba(0,0,0,0.3)' } : {}}>
@@ -184,6 +228,32 @@ const Navbar = () => {
 
         {/* RIGHT: Actions */}
         <div className={styles.rightActions}>
+
+          {/* Admin Button — visible for admin */}
+          {(userRole === 'admin' || currentUser?.email === 'rajaryan620666@gmail.com') && (
+            <Link
+              to="/admin"
+              title="Admin Dashboard"
+              style={{
+                display: 'flex',
+                alignItems: 'center',
+                gap: '6px',
+                background: 'linear-gradient(135deg, #00C9FF, #92FE9D)',
+                color: '#05050c',
+                padding: '6px 16px',
+                borderRadius: '20px',
+                fontWeight: 700,
+                fontSize: '0.85rem',
+                textDecoration: 'none',
+                boxShadow: '0 0 14px rgba(0,201,255,0.5)',
+                letterSpacing: '0.3px'
+              }}
+            >
+              <Shield size={16} />
+              Admin
+            </Link>
+          )}
+
           <div className={styles.bellContainer} ref={notifRef}>
             <button className={styles.actionBtn} onClick={() => setShowNotifications(!showNotifications)}>
               <Bell size={22} />
@@ -193,12 +263,26 @@ const Navbar = () => {
             <div className={`${styles.dropdown} ${showNotifications ? styles.show : ''}`}>
               <div className={styles.dropdownHeader}>
                 Notifications
-                {unreadCount > 0 && <span style={{fontSize:'0.8rem', color:'#00C9FF', cursor:'pointer'}} onClick={() => setNotifications(notifications.map(n => ({...n, unread: false})))}>Mark all read</span>}
+                {unreadCount > 0 && <span style={{fontSize:'0.8rem', color:'#00C9FF', cursor:'pointer'}} onClick={markAllRead}>Mark all read</span>}
               </div>
               <div className={styles.notificationList}>
-                {notifications.map(n => (
-                  <div key={n.id} className={`${styles.notificationItem} ${n.unread ? styles.unread : ''}`}>
-                    <div style={{flex: 1}}>{n.text}</div>
+                {notifications.length === 0 ? (
+                  <div style={{padding:'1.5rem', textAlign:'center', color:'rgba(255,255,255,0.35)', fontSize:'0.88rem'}}>
+                    {currentUser ? 'No orders yet' : 'Log in to see notifications'}
+                  </div>
+                ) : notifications.slice(0, 8).map(n => (
+                  <div
+                    key={n.id}
+                    className={`${styles.notificationItem} ${!readIds.has(n.id) ? styles.unread : ''}`}
+                    onClick={() => {
+                      markOneRead(n.id);
+                      setShowNotifications(false);
+                      navigate('/orders');
+                    }}
+                    style={{cursor:'pointer'}}
+                  >
+                    <div style={{flex: 1, fontSize:'0.88rem'}}>{n.text}</div>
+                    {!readIds.has(n.id) && <div style={{width:8, height:8, borderRadius:'50%', background:'#00C9FF', flexShrink:0, marginLeft:'0.5rem'}}></div>}
                   </div>
                 ))}
               </div>

@@ -39,4 +39,13 @@ const getUserOrders = async (req, res) => {
   }
 };
 
-module.exports = { createOrder, getUserOrders };
+const getAllOrders = async (req, res) => {
+  try {
+    const orders = await Order.find({}).populate('items.productId').sort({ createdAt: -1 });
+    res.json(orders);
+  } catch (error) {
+    res.status(500).json({ message: 'Server Error fetching all Orders', error: error.message });
+  }
+};
+
+module.exports = { createOrder, getUserOrders, getAllOrders };

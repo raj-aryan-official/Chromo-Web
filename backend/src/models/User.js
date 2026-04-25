@@ -28,6 +28,12 @@ const userSchema = new mongoose.Schema({
   altPhone: {
     type: String
   },
+  // Role-based access control
+  role: {
+    type: String,
+    enum: ['user', 'admin'],
+    default: 'user'
+  },
   // Allows the user to store multiple tagged delivery points
   addresses: [addressSchema],
   likedPaints: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Product' }],

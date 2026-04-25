@@ -19,6 +19,7 @@ import Shop from './pages/Shop/Shop';
 import Paints from './pages/Paints/Paints';
 import LikedPaints from './pages/LikedPaints/LikedPaints';
 import SavedPalettes from './pages/SavedPalettes/SavedPalettes';
+import AdminDashboard from './pages/Admin/AdminDashboard';
 import './App.css'; // Global overriding styles if needed
 
 function App() {
@@ -44,6 +45,7 @@ function App() {
             <Route path="/paints" element={<Paints />} />
             <Route path="/liked-paints" element={<LikedPaints />} />
             <Route path="/saved-palettes" element={<SavedPalettes />} />
+            <Route path="/admin" element={<AdminDashboard />} />
           </Routes>
         </CartProvider>
       </Router>
