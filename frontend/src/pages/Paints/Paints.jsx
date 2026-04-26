@@ -12,6 +12,7 @@ const Paints = () => {
   const [paintProducts, setPaintProducts] = useState([]);
   const [loading, setLoading] = useState(true);
   const [activeTab, setActiveTab] = useState('All');
+  const [filterBrand, setFilterBrand] = useState('All Brands');
   const [addedItemIds, setAddedItemIds] = useState({});
   const [likedMap, setLikedMap] = useState({});
   
@@ -59,13 +60,24 @@ const Paints = () => {
     }
   };
 
-  const filteredPaints = paintProducts.filter(paint => {
+  // Randomize paints for users to discover them at random places
+  const shuffledPaints = React.useMemo(() => {
+    return [...paintProducts].sort(() => Math.random() - 0.5);
+  }, [paintProducts]);
+
+  const filteredPaints = shuffledPaints.filter(paint => {
+    const isPaint = paint.tags && paint.tags.includes('paint');
+    if (!isPaint && activeTab === 'All') return false; // Hide non-paint accessories
+
     const matchesSearch = paint.name.toLowerCase().includes(searchTerm.toLowerCase()) || 
                           paint.company.toLowerCase().includes(searchTerm.toLowerCase());
-    const matchesTab = activeTab === 'All' || paint.type.includes(activeTab);
+    const matchesTab = activeTab === 'All' ? isPaint : paint.type.includes(activeTab);
     const matchesCategory = categoryFilter === 'new' ? (paint.tags && paint.tags.includes('new')) : true;
-    return matchesSearch && matchesTab && matchesCategory;
+    const matchesBrand = filterBrand === 'All Brands' ? true : paint.company === filterBrand;
+    return matchesSearch && matchesTab && matchesCategory && matchesBrand;
   });
+
+  const availableBrands = ['All Brands', ...new Set(paintProducts.filter(p => p.tags?.includes('paint')).map(p => p.company))].filter(Boolean);
 
   const handleQuickView = (e, id) => {
     e.stopPropagation();
@@ -99,6 +111,24 @@ const Paints = () => {
               <button className={`${styles.filterTab} ${activeTab === 'All' ? styles.active : ''}`} onClick={() => setActiveTab('All')}>All</button>
               <button className={`${styles.filterTab} ${activeTab === 'Enamel' ? styles.active : ''}`} onClick={() => setActiveTab('Enamel')}>Enamel</button>
               <button className={`${styles.filterTab} ${activeTab === 'Matte' ? styles.active : ''}`} onClick={() => setActiveTab('Matte')}>Matte</button>
+              
+              <select 
+                value={filterBrand} 
+                onChange={(e) => setFilterBrand(e.target.value)}
+                className={styles.brandSelect}
+                style={{
+                  background: 'rgba(5, 5, 12, 0.9)',
+                  color: '#fff',
+                  border: '1px solid rgba(255, 255, 255, 0.1)',
+                  padding: '8px 16px',
+                  borderRadius: '20px',
+                  marginLeft: 'auto',
+                  outline: 'none',
+                  cursor: 'pointer'
+                }}
+              >
+                {availableBrands.map(b => <option key={b} value={b} style={{background: '#11111a', color: '#fff'}}>{b}</option>)}
+              </select>
             </div>
           </div>
           
@@ -109,6 +139,29 @@ const Paints = () => {
               {filteredPaints.map((paint) => (
                 <div key={paint._id} className={styles.productCard} onClick={(e) => handleQuickView(e, paint._id)}>
                   <div className={styles.colorDisplay} style={{ backgroundColor: paint.colorHex || '#FFD700' }}>
+                    {paint.image && (
+                      <img 
+                        src={paint.image} 
+                        alt={paint.name} 
+                        style={{ width: '100%', height: '100%', objectFit: 'cover', position: 'absolute', top: 0, left: 0 }} 
+                      />
+                    )}
+                    {(() => {
+                      let displayBadge = null;
+                      if (paint.tags) {
+                        if (paint.tags.includes('new')) {
+                          displayBadge = '✨ New';
+                        } else {
+                          const special = paint.tags.find(t => t.includes('🌟') || t.includes('❤️') || t.includes('✨') || t.includes('💎') || t.includes('🔥'));
+                          if (special) displayBadge = special;
+                        }
+                      }
+                      return displayBadge ? (
+                        <span className={`${styles.newBadge} ${displayBadge === '✨ New' ? '' : styles.specialBadge}`}>
+                          {displayBadge}
+                        </span>
+                      ) : null;
+                    })()}
                     <div className={styles.iconsOverlay}>
                       <button className={styles.iconBtn} onClick={(e) => handleLikeToggle(e, paint._id)}>
                         <Heart size={18} fill={likedMap[paint._id] ? "#FF4757" : "transparent"} color={likedMap[paint._id] ? "#FF4757" : "#fff"} />

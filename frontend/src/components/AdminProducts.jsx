@@ -123,6 +123,7 @@ function AdminProducts({ userToken }) {
       variants: product.variants || [{ weight: '', price: '' }]
     });
     setShowForm(true);
+    window.scrollTo({ top: 0, behavior: 'smooth' });
   };
 
   const handleDelete = async (productId) => {
@@ -152,14 +153,60 @@ function AdminProducts({ userToken }) {
     setShowForm(false);
   };
 
+  const [searchQuery, setSearchQuery] = useState('');
+  const [filterCompany, setFilterCompany] = useState('');
+
   if (loading) {
     return <div className="loading">Loading products...</div>;
   }
 
+  // Derive unique companies for the filter
+  const allCompanies = [...new Set(products.map(p => p.company))].filter(Boolean);
+
+  const filteredProducts = products.filter(p => {
+    const matchesSearch = p.name.toLowerCase().includes(searchQuery.toLowerCase()) || 
+                          p.company?.toLowerCase().includes(searchQuery.toLowerCase());
+    const matchesCompany = filterCompany ? p.company === filterCompany : true;
+    return matchesSearch && matchesCompany;
+  });
+
   return (
     <div className="admin-products">
-      <div className="products-header">
+      <div className="products-header" style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexWrap: 'wrap', gap: '1rem' }}>
         <h2>Product Management</h2>
+        
+        <div style={{ display: 'flex', gap: '1rem', flex: 1, paddingLeft: '2rem' }}>
+          <input 
+            type="text" 
+            placeholder="Search products..." 
+            value={searchQuery}
+            onChange={(e) => setSearchQuery(e.target.value)}
+            style={{
+              padding: '0.6rem 1rem',
+              borderRadius: '8px',
+              border: '1px solid #444',
+              background: '#1a1a24',
+              color: '#fff',
+              flex: 1,
+              maxWidth: '300px'
+            }}
+          />
+          <select 
+            value={filterCompany}
+            onChange={(e) => setFilterCompany(e.target.value)}
+            style={{
+              padding: '0.6rem 1rem',
+              borderRadius: '8px',
+              border: '1px solid #444',
+              background: '#1a1a24',
+              color: '#fff'
+            }}
+          >
+            <option value="">All Companies</option>
+            {allCompanies.map(c => <option key={c} value={c}>{c}</option>)}
+          </select>
+        </div>
+
         <button 
           className="btn-add-product"
           onClick={() => setShowForm(!showForm)}
@@ -197,7 +244,7 @@ function AdminProducts({ userToken }) {
             </div>
 
             <div className="form-group">
-              <label>Paint Type *</label>
+              <label>Type / Category *</label>
               <select
                 name="type"
                 value={formData.type}
@@ -206,6 +253,14 @@ function AdminProducts({ userToken }) {
                 <option value="Interior">Interior</option>
                 <option value="Exterior">Exterior</option>
                 <option value="Primer">Primer</option>
+                <option value="Painting Tools & Accessories">Painting Tools & Accessories</option>
+                <option value="Primers & Wall Putty">Primers & Wall Putty</option>
+                <option value="Wall Coverings">Wall Coverings</option>
+                <option value="Décor & Lighting">Décor & Lighting</option>
+                <option value="DIY Kits & Bundles">DIY Kits & Bundles</option>
+                <option value="Specialty Paints">Specialty Paints</option>
+                <option value="Adhesives & Sealants">Adhesives & Sealants</option>
+                <option value="Storage & Organization">Storage & Organization</option>
               </select>
             </div>
 
@@ -270,9 +325,9 @@ function AdminProducts({ userToken }) {
               </div>
             ))}
             <button
-              type="button"
-              className="btn-add-variant"
-              onClick={addVariant}
+               type="button"
+               className="btn-add-variant"
+               onClick={addVariant}
             >
               + Add Variant
             </button>
@@ -290,12 +345,13 @@ function AdminProducts({ userToken }) {
       )}
 
       <div className="products-list">
-        <h3>All Products ({products.length})</h3>
-        {products.length === 0 ? (
-          <p className="no-products">No products found. Add one to get started!</p>
+        <h3>All Products ({filteredProducts.length})</h3>
+
+        {filteredProducts.length === 0 ? (
+          <p className="no-products">No products found matching your criteria.</p>
         ) : (
           <div className="products-grid">
-            {products.map(product => (
+            {filteredProducts.map(product => (
               <div key={product._id} className="product-card">
                 <div 
                   className="product-color"

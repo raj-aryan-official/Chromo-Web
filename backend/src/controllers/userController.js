@@ -70,21 +70,22 @@ const updateUserProfile = async (req, res) => {
     const { uid } = req.params;
     const { name, phone, altPhone, addresses } = req.body;
 
-    const user = await User.findOne({ firebaseUid: uid });
+    const updateFields = {};
+    if (name) updateFields.name = name;
+    if (phone !== undefined) updateFields.phone = phone || "0000000000";
+    if (altPhone !== undefined) updateFields.altPhone = altPhone;
+    if (addresses) updateFields.addresses = addresses;
+
+    const user = await User.findOneAndUpdate(
+      { firebaseUid: uid },
+      { $set: updateFields },
+      { new: true }
+    );
+
     if (!user) {
       return res.status(404).json({ message: 'User not found in MongoDB' });
     }
 
-    if (name) user.name = name;
-    if (phone !== undefined) user.phone = phone;
-    if (altPhone !== undefined) user.altPhone = altPhone;
-    if (addresses) {
-      // Logic to ensure only 1 address is default if passed
-      // Usually handled gracefully by frontend array replacement
-      user.addresses = addresses;
-    }
-
-    await user.save();
     res.json(user);
   } catch (error) {
     console.error("Update profile error:", error);

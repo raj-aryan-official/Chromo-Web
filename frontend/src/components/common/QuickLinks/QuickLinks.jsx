@@ -7,6 +7,9 @@ const QuickLinks = () => {
   return (
     <div className={styles.bottomSection}>
       <div className={styles.quickLinks}>
+        <Link to="/shop" className={styles.quickLink}>
+          <Package size={16} /> All Products
+        </Link>
         <Link to="/paints?category=new" className={styles.quickLink}>
           <Tag size={16} /> New Colors
         </Link>
@@ -15,9 +18,6 @@ const QuickLinks = () => {
         </Link>
         <Link to="/palette-studio" className={styles.quickLink}>
           <Paintbrush size={16} /> Palette Studio
-        </Link>
-        <Link to="/shop" className={styles.quickLink}>
-          <Package size={16} /> Shop Products
         </Link>
         <Link to="/calculator" className={styles.quickLink}>
           <span style={{ fontSize: '1.1rem', marginRight: '4px' }}>🧮</span> Paint Calculator

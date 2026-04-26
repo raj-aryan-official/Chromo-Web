@@ -40,24 +40,24 @@ const Home = () => {
   const handleLikeToggle = async (e, productId) => {
     e.stopPropagation();
     if (!currentUser) return alert("Please log in to like paints.");
-    
-    setLikedMap(prev => ({...prev, [productId]: !prev[productId]}));
+
+    setLikedMap(prev => ({ ...prev, [productId]: !prev[productId] }));
     try {
       await fetch(`http://localhost:5000/api/users/${currentUser.uid}/like`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ productId })
       });
-    } catch(err) {
-      setLikedMap(prev => ({...prev, [productId]: !prev[productId]}));
+    } catch (err) {
+      setLikedMap(prev => ({ ...prev, [productId]: !prev[productId] }));
     }
   };
 
   const companies = [
-    { name: "Asian Paints", img: "https://images.unsplash.com/photo-1563906267088-b029e7101114?w=300" },
-    { name: "Berger Paints", img: "https://images.unsplash.com/photo-1589939705384-5185137a7f0f?w=300" },
-    { name: "Nerolac", img: "https://images.unsplash.com/photo-1572295727871-7638149ea3d7?w=300" },
-    { name: "Dulux", img: "https://images.unsplash.com/photo-1581850518616-bcb8077a2336?w=300" },
+    { name: "Asian Paints", img: "https://images.unsplash.com/photo-1562259942-ed8de1d52044?w=400", bg: "#ffffff" },
+    { name: "Berger Paints", img: "https://images.unsplash.com/photo-1589939705384-5185137a7f0f?w=400", bg: "#ffffff" },
+    { name: "Nerolac", img: "https://images.unsplash.com/photo-1574342416972-e10398f6d8fb?w=400", bg: "#ffffff" },
+    { name: "Dulux", img: "https://images.unsplash.com/photo-1550684376-efcbd6e3f031?w=400", bg: "#ffffff" },
   ];
 
   const types = [
@@ -78,14 +78,14 @@ const Home = () => {
   return (
     <div className={styles.pageWrapper}>
       <Navbar />
-      
+
       <main className={styles.mainContent}>
-        
+
         {/* HERO BANNER - OFFERS */}
         <section className={styles.heroSection}>
           <div className={styles.heroContent}>
             <span className={styles.dealBadge}>🔥 Biggest Sale of the Year</span>
-            <h1>Transform Your Space.<br/>Save up to 40% on Premium Paints.</h1>
+            <h1>Transform Your Space.<br />Save up to 40% on Premium Paints.</h1>
             <p>Get the best deals on top brands, DIY kits, and wall coverings.</p>
             <button className={styles.shopNowBtn} onClick={() => navigate('/paints')}>
               Shop All Paints <ArrowRight size={18} />
@@ -104,9 +104,11 @@ const Home = () => {
           </div>
           <div className={styles.companyGrid}>
             {companies.map((company, idx) => (
-              <div key={idx} className={styles.companyCard} onClick={() => navigate('/paints')}>
-                <img src={company.img} alt={company.name} />
-                <h3>{company.name}</h3>
+              <div key={idx} className={styles.companyCard} onClick={() => navigate('/paints')} style={{ background: company.bg || 'rgba(255,255,255,0.05)' }}>
+                <div className={styles.logoWrapper}>
+                  <img src={company.img} alt={company.name} className={styles.actualLogo} />
+                </div>
+                <h3 className={styles.companyNameText}>{company.name}</h3>
               </div>
             ))}
           </div>
@@ -130,11 +132,14 @@ const Home = () => {
         {/* RECENTLY VIEWED & LIKED (FEATURED FROM DB) */}
         <section className={styles.categorySection}>
           <div className={styles.sectionHeader}>
-            <h2>Recently Viewed & Loved <Heart size={24} color="#FF4757" fill="#FF4757" style={{marginLeft:'10px'}}/></h2>
+            <div style={{ display: 'flex', alignItems: 'center', gap: '1rem' }}>
+              <h2>Recently Viewed & Loved <Heart size={24} color="#FF4757" fill="#FF4757" style={{ marginLeft: '10px' }} /></h2>
+            </div>
+            <button onClick={() => navigate('/shop')} className={styles.viewAll}>View All Products</button>
           </div>
-          
+
           {loading ? (
-             <div className={styles.loadingContainer}>Loading fresh paints from DB...</div>
+            <div className={styles.loadingContainer}>Loading fresh paints from DB...</div>
           ) : (
             <div className={styles.productGrid}>
               {featuredPaints.map((paint) => (
@@ -169,11 +174,103 @@ const Home = () => {
             <h2>Looking for tools or decor?</h2>
             <p>Brushes, wallpapers, lamps, and DIY kits—everything you need for a complete room makeover.</p>
             <button className={styles.outlineBtn} onClick={() => navigate('/shop')}>
-               Explore Other Products <ArrowRight size={18} />
+              Explore Other Products <ArrowRight size={18} />
             </button>
           </div>
         </section>
 
+        {/* WHY CHOOSE US SECTION */}
+        <section className={styles.featuresSection}>
+          <div className={styles.sectionHeader}>
+            <div style={{ display: 'flex', alignItems: 'center', gap: '1rem', justifyContent: 'center', width: '100%' }}>
+              <h2 style={{ textAlign: 'center', width: '100%' }}>Why Choose Chromo? 🌟</h2>
+            </div>
+            <p style={{ textAlign: 'center', color: '#9ca3af', maxWidth: '600px', margin: '0.5rem auto 2rem' }}>Experience the revolutionary way to discover, preview, and purchase the perfect paint and tools for your ultimate home makeover.</p>
+          </div>
+
+          <div className={styles.featuresGrid}>
+            <div className={styles.featureCard}>
+              <div className={styles.featureIcon}>💧</div>
+              <h3>Spill-Proof Packaging</h3>
+              <p>All our paints are delivered with military-grade sealed lids ensuring zero leakage during transit.</p>
+            </div>
+            <div className={styles.featureCard}>
+              <div className={styles.featureIcon}>🎯</div>
+              <h3>Color Match Guarantee</h3>
+              <p>What you see on your screen is 99.9% accurate to what you'll see on your walls.</p>
+            </div>
+            <div className={styles.featureCard}>
+              <div className={styles.featureIcon}>⏱️</div>
+              <h3>Same Day Dispatch</h3>
+              <p>Order before 4 PM and we will freshly mix and dispatch your customized colors immediately.</p>
+            </div>
+            <div className={styles.featureCard}>
+              <div className={styles.featureIcon}>👨‍🔧</div>
+              <h3>Live Expert Support</h3>
+              <p>Stuck on an edge? Our experts are available 24/7 to guide your painting process live via video.</p>
+            </div>
+          </div>
+        </section>
+
+        {/* MEGA BRAND DEALS SECTION */}
+        <section className={styles.categorySection} style={{ marginTop: '6rem' }}>
+          <div className={styles.sectionHeader}>
+            <div style={{ display: 'flex', alignItems: 'center', gap: '1rem' }}>
+              <h2>🔥 Exclusive Brand Deals</h2>
+            </div>
+            <button className={styles.viewAll} onClick={() => navigate('/shop')}>Browse All Sales→</button>
+          </div>
+
+          <div className={styles.dealsGrid}>
+            {/* Deal 1 */}
+            <div className={styles.dealsCard} style={{ background: 'linear-gradient(to right, #1a2a6c, #b21f1f, #fdbb2d)' }} onClick={() => navigate('/shop')}>
+              <div className={styles.dealContent}>
+                <h3>Asian Paints Mega Bundle</h3>
+                <p>Flat 50% Off on Interior Emulsions & Accompanying Tools</p>
+                <div className={styles.dealPrice}>From ₹1,499</div>
+              </div>
+            </div>
+
+            {/* Deal 2 */}
+            <div className={styles.dealsCard} style={{ background: 'linear-gradient(to right, #00467F, #A5CC82)' }} onClick={() => navigate('/shop')}>
+              <div className={styles.dealContent}>
+                <h3>Berger WeatherCoat Fest</h3>
+                <p>Exterior Protections + Waterproofing Sealants up to 30% Off</p>
+                <div className={styles.dealPrice}>From ₹899</div>
+              </div>
+            </div>
+
+            {/* Deal 3 */}
+            <div className={styles.dealsCard} style={{ background: 'linear-gradient(to right, #ff4e50, #f9d423)' }} onClick={() => navigate('/shop')}>
+              <div className={styles.dealContent}>
+                <h3>Nerolac Decorative Clearance</h3>
+                <p>Buy 2 Wallpapers, Get 1 DIY Makeover ToolKit Free!</p>
+                <div className={styles.dealPrice}>Starting ₹499</div>
+              </div>
+            </div>
+
+            {/* Deal 4 */}
+            <div className={styles.dealsCard} style={{ background: 'linear-gradient(to right, #141e30, #243b55)' }} onClick={() => navigate('/shop')}>
+              <div className={styles.dealContent}>
+                <h3>Dulux Premium Finishes</h3>
+                <p>Specialty Velvet Touch Paints + Free Color Consultation App</p>
+                <div className={styles.dealPrice}>Flat 20% Off</div>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        {/* PROMO BANNER */}
+        <section className={styles.promoBanner}>
+          <div className={styles.promoContent}>
+            <h2>Revamp Your Entire Home <br /> This Festive Season! 🎉</h2>
+            <p>Get up to 40% OFF on all DIY Room Makeover Kits and bundled accessories.</p>
+            <button className={styles.promoBtn} onClick={() => navigate('/shop')}>Claim Discount</button>
+          </div>
+          <div className={styles.promoImage}>
+            <img src="https://images.unsplash.com/photo-1589939705384-5185137a7f0f?w=600" alt="Festive Sale" />
+          </div>
+        </section>
       </main>
 
       <Footer />

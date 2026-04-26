@@ -85,11 +85,12 @@
   left: -300px;
   width: 300px;
   height: 100vh;
+  box-sizing: border-box;
   background: var(--bg-secondary, #11111a);
   z-index: 1000;
   transition: left 0.3s ease-in-out;
   padding: 2rem 1.5rem;
-  box-shadow: 5px 0 25px rgba(0,0,0,0.5);
+  box-shadow: 5px 0 25px rgba(0, 0, 0, 0.5);
   overflow-y: auto;
 }
 
@@ -103,7 +104,7 @@
   left: 0;
   width: 100vw;
   height: 100vh;
-  background: rgba(0,0,0,0.6);
+  background: rgba(0, 0, 0, 0.6);
   z-index: 999;
   opacity: 0;
   visibility: hidden;
@@ -133,7 +134,7 @@
   padding: 1rem 0;
   color: var(--text-primary, #fff);
   text-decoration: none;
-  border-bottom: 1px solid var(--border-color, rgba(255,255,255,0.05));
+  border-bottom: 1px solid var(--border-color, rgba(255, 255, 255, 0.05));
   font-size: 1.1rem;
   transition: padding-left 0.2s;
 }
@@ -181,7 +182,8 @@
   color: var(--text-muted, rgba(255, 255, 255, 0.5));
 }
 
-.voiceSearchBtn, .searchSubmitBtn {
+.voiceSearchBtn,
+.searchSubmitBtn {
   background: transparent;
   border: none;
   cursor: pointer;
@@ -193,7 +195,8 @@
   transition: transform 0.2s;
 }
 
-.voiceSearchBtn:hover, .searchSubmitBtn:hover {
+.voiceSearchBtn:hover,
+.searchSubmitBtn:hover {
   transform: scale(1.1);
   color: #00C9FF;
 }
@@ -204,9 +207,17 @@
 }
 
 @keyframes pulse {
-  0% { transform: scale(1); }
-  50% { transform: scale(1.15); }
-  100% { transform: scale(1); }
+  0% {
+    transform: scale(1);
+  }
+
+  50% {
+    transform: scale(1.15);
+  }
+
+  100% {
+    transform: scale(1);
+  }
 }
 
 .searchResults {
@@ -217,7 +228,7 @@
   background: var(--bg-secondary, #11111a);
   border: 1px solid var(--border-color, rgba(255, 255, 255, 0.1));
   border-radius: 12px;
-  box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
   overflow: hidden;
 }
 
@@ -231,7 +242,8 @@
   gap: 1rem;
 }
 
-.searchItem.active, .searchItem:hover {
+.searchItem.active,
+.searchItem:hover {
   background: var(--bg-hover, rgba(255, 255, 255, 0.05));
 }
 
@@ -239,7 +251,7 @@
   padding: 0.5rem 1rem;
   font-size: 0.8rem;
   color: var(--text-muted, #888);
-  border-bottom: 1px solid var(--border-color, rgba(255,255,255,0.05));
+  border-bottom: 1px solid var(--border-color, rgba(255, 255, 255, 0.05));
 }
 
 /* Right side actions */
@@ -266,7 +278,9 @@
 }
 
 /* 7. Notifications */
-.bellContainer, .accountContainer, .cartContainer {
+.bellContainer,
+.accountContainer,
+.cartContainer {
   position: relative;
 }
 
@@ -293,10 +307,10 @@
   right: 0;
   margin-top: 1rem;
   background: var(--bg-secondary, #11111a);
-  border: 1px solid var(--border-color, rgba(255,255,255,0.1));
+  border: 1px solid var(--border-color, rgba(255, 255, 255, 0.1));
   border-radius: 12px;
   width: 300px;
-  box-shadow: 0 10px 40px rgba(0,0,0,0.6);
+  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.6);
   opacity: 0;
   visibility: hidden;
   transform: translateY(10px);
@@ -311,7 +325,7 @@
 
 .dropdownHeader {
   padding: 1rem;
-  border-bottom: 1px solid var(--border-color, rgba(255,255,255,0.05));
+  border-bottom: 1px solid var(--border-color, rgba(255, 255, 255, 0.05));
   font-weight: 600;
   color: var(--text-primary, #fff);
   display: flex;
@@ -321,7 +335,7 @@
 
 .notificationItem {
   padding: 1rem;
-  border-bottom: 1px solid var(--border-color, rgba(255,255,255,0.05));
+  border-bottom: 1px solid var(--border-color, rgba(255, 255, 255, 0.05));
   display: flex;
   align-items: flex-start;
   gap: 1rem;
@@ -331,7 +345,7 @@
 }
 
 .notificationItem:hover {
-  background: var(--bg-hover, rgba(255,255,255,0.05));
+  background: var(--bg-hover, rgba(255, 255, 255, 0.05));
 }
 
 .notificationItem.unread {
@@ -354,8 +368,8 @@
 
 .accountHeader {
   padding: 1rem;
-  background: var(--bg-tertiary, rgba(255,255,255,0.02));
-  border-bottom: 1px solid var(--border-color, rgba(255,255,255,0.05));
+  background: var(--bg-tertiary, rgba(255, 255, 255, 0.02));
+  border-bottom: 1px solid var(--border-color, rgba(255, 255, 255, 0.05));
 }
 
 .userName {
@@ -369,7 +383,8 @@
   color: var(--text-muted, #888);
 }
 
-.accountLinks a, .accountLinks button {
+.accountLinks a,
+.accountLinks button {
   display: flex;
   align-items: center;
   gap: 0.75rem;
@@ -385,13 +400,14 @@
   transition: background 0.2s;
 }
 
-.accountLinks a:hover, .accountLinks button:hover {
-  background: var(--bg-hover, rgba(255,255,255,0.05));
+.accountLinks a:hover,
+.accountLinks button:hover {
+  background: var(--bg-hover, rgba(255, 255, 255, 0.05));
   color: #00C9FF;
 }
 
 .signOutBtn {
-  border-top: 1px solid var(--border-color, rgba(255,255,255,0.05)) !important;
+  border-top: 1px solid var(--border-color, rgba(255, 255, 255, 0.05)) !important;
   color: #ff4757 !important;
 }
 
@@ -433,7 +449,7 @@
   display: flex;
   align-items: center;
   gap: 1rem;
-  border-bottom: 1px solid var(--border-color, rgba(255,255,255,0.05));
+  border-bottom: 1px solid var(--border-color, rgba(255, 255, 255, 0.05));
 }
 
 .cartItemImg {
@@ -457,7 +473,7 @@
 
 .cartFooter {
   padding: 1rem;
-  background: var(--bg-tertiary, rgba(255,255,255,0.02));
+  background: var(--bg-tertiary, rgba(255, 255, 255, 0.02));
 }
 
 .checkoutBtn {

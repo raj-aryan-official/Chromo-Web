@@ -20,12 +20,14 @@ import Paints from './pages/Paints/Paints';
 import LikedPaints from './pages/LikedPaints/LikedPaints';
 import SavedPalettes from './pages/SavedPalettes/SavedPalettes';
 import AdminDashboard from './pages/Admin/AdminDashboard';
+import ScrollToTop from './components/common/ScrollToTop';
 import './App.css'; // Global overriding styles if needed
 
 function App() {
   return (
     <AuthProvider>
       <Router>
+        <ScrollToTop />
         <CartProvider>
           <Routes>
             <Route path="/" element={<Home />} />

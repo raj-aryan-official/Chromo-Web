@@ -2,7 +2,7 @@ import React, { useState, useEffect, useRef } from 'react';
 import { Link, useNavigate, useLocation } from 'react-router-dom';
 import { 
   ShoppingCart, User, Paintbrush, Search, Package, Menu, X, 
-  Mic, MicOff, Bell, Clock, Tag, Settings, LogOut, Heart, Shield
+  Mic, MicOff, Bell, Clock, Tag, Settings, LogOut, Heart, Shield, ShoppingBag
 } from 'lucide-react';
 import { useAuth } from '../../../context/AuthContext';
 import { useCart } from '../../../context/CartContext';
@@ -12,7 +12,8 @@ import styles from './Navbar.module.css';
 
 const Navbar = () => {
   const { currentUser, userRole, logout } = useAuth();
-  const { cartCount, items } = useCart();
+  const { cart, cartCount } = useCart();
+  const items = cart?.items || [];
   const navigate = useNavigate();
   const location = useLocation();
 
@@ -51,6 +52,28 @@ const Navbar = () => {
     window.addEventListener('scroll', handleScroll);
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
+
+  // Prevent body scroll when mobile menu is open
+  useEffect(() => {
+    if (isMobileMenuOpen) {
+      document.body.style.overflow = 'hidden';
+      document.documentElement.style.overflow = 'hidden';
+      // Prevent mobile bounce scrolling
+      document.body.style.position = 'fixed';
+      document.body.style.width = '100%';
+    } else {
+      document.body.style.overflow = 'unset';
+      document.documentElement.style.overflow = 'unset';
+      document.body.style.position = '';
+      document.body.style.width = '';
+    }
+    return () => {
+      document.body.style.overflow = 'unset';
+      document.documentElement.style.overflow = 'unset';
+      document.body.style.position = '';
+      document.body.style.width = '';
+    };
+  }, [isMobileMenuOpen]);
 
   // Load search history
   useEffect(() => {
@@ -268,7 +291,7 @@ const Navbar = () => {
               <div className={styles.notificationList}>
                 {notifications.length === 0 ? (
                   <div style={{padding:'1.5rem', textAlign:'center', color:'rgba(255,255,255,0.35)', fontSize:'0.88rem'}}>
-                    {currentUser ? 'No orders yet' : 'Log in to see notifications'}
+                    {currentUser ? 'No notifications yet' : 'Log in to see notifications'}
                   </div>
                 ) : notifications.slice(0, 8).map(n => (
                   <div
@@ -305,6 +328,7 @@ const Navbar = () => {
               </div>
               <div className={styles.accountLinks}>
                 <Link to="/profile"><User size={18}/> My Account</Link>
+                <Link to="/shop"><ShoppingBag size={18}/> All Products</Link>
                 <Link to="/orders"><Package size={18}/> Order History</Link>
                 <Link to="/liked-paints"><Heart size={18} fill="#FF4757" color="#FF4757" /> Liked Paints</Link>
                 <Link to="/saved-palettes"><Heart size={18}/> Saved Palettes</Link>
@@ -330,8 +354,8 @@ const Navbar = () => {
                     {items.slice(0,3).map((item, idx) => (
                       <div key={idx} className={styles.cartItem}>
                         <div className={styles.cartItemInfo}>
-                          <h4>Product ID: {item.product}</h4>
-                          <div className={styles.cartItemPrice}>Qty: {item.quantity}</div>
+                          <h4>#{idx + 1} - {item.productId?.name || 'Product'}</h4>
+                          <div className={styles.cartItemPrice}>Qty: {item.quantity} | {item.variant?.weight}</div>
                         </div>
                       </div>
                     ))}
@@ -352,23 +376,31 @@ const Navbar = () => {
       {/* MOBILE HAMBURGER MENU */}
       <div className={`${styles.menuOverlay} ${isMobileMenuOpen ? styles.show : ''}`} onClick={() => setIsMobileMenuOpen(false)}></div>
       <div className={`${styles.mobileMenu} ${isMobileMenuOpen ? styles.open : ''}`}>
-        <button className={styles.closeMenuBtn} onClick={() => setIsMobileMenuOpen(false)}>
-          <X size={28} />
-        </button>
+        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '1rem' }}>
+          <h3 style={{color: '#888', margin: 0, textTransform: 'uppercase', fontSize: '0.9rem'}}>Main Menu</h3>
+          <button className={styles.closeMenuBtn} style={{ margin: 0, float: 'none' }} onClick={() => setIsMobileMenuOpen(false)}>
+            <X size={28} />
+          </button>
+        </div>
         <div className={styles.menuCategories}>
-          <h3 style={{color: '#888', marginBottom: '1rem', textTransform: 'uppercase', fontSize: '0.9rem'}}>Browse Colors</h3>
-          <Link to="/" className={styles.menuItem}>Enamel Finishes</Link>
-          <Link to="/" className={styles.menuItem}>Matte Finishes</Link>
-          <Link to="/" className={styles.menuItem}>Glossy Finishes</Link>
+          <Link to="/" className={styles.menuItem} onClick={() => setIsMobileMenuOpen(false)}>Home</Link>
+          <Link to="/shop" className={styles.menuItem} onClick={() => setIsMobileMenuOpen(false)}>All Products</Link>
+          <Link to="/paints" className={styles.menuItem} onClick={() => setIsMobileMenuOpen(false)}>Premium Paints</Link>
           
-          <h3 style={{color: '#888', margin: '2rem 0 1rem', textTransform: 'uppercase', fontSize: '0.9rem'}}>Palette Studio</h3>
-          <Link to="/palette-studio" className={styles.menuItem}>Create Harmonies</Link>
-          <Link to="/palette-studio" className={styles.menuItem}>Trending Combos</Link>
+          <h3 style={{color: '#888', margin: '2rem 0 1rem', textTransform: 'uppercase', fontSize: '0.9rem'}}>Studio & Tools</h3>
+          <Link to="/palette-studio" className={styles.menuItem} onClick={() => setIsMobileMenuOpen(false)}>Palette Studio</Link>
+          <Link to="/calculator" className={styles.menuItem} onClick={() => setIsMobileMenuOpen(false)}>Paint Calculator</Link>
 
-          <h3 style={{color: '#888', margin: '2rem 0 1rem', textTransform: 'uppercase', fontSize: '0.9rem'}}>More</h3>
-          <Link to="/calculator" className={styles.menuItem}>Paint Calculator</Link>
-          <Link to="/expert" className={styles.menuItem}>Live Consultations</Link>
-          {currentUser && <button className={styles.menuItem} style={{background:'none', border:'none', textAlign:'left', width:'100%', color:'#ff4757', borderBottom:'1px solid var(--border-color)', cursor:'pointer'}} onClick={handleLogout}>Sign Out</button>}
+          <h3 style={{color: '#888', margin: '2rem 0 1rem', textTransform: 'uppercase', fontSize: '0.9rem'}}>Account & Support</h3>
+          <Link to="/expert" className={styles.menuItem} onClick={() => setIsMobileMenuOpen(false)}>Live Consultations</Link>
+          {currentUser ? (
+            <>
+              <Link to="/orders" className={styles.menuItem} onClick={() => setIsMobileMenuOpen(false)}>My Orders</Link>
+              <button className={styles.menuItem} style={{background:'none', border:'none', textAlign:'left', width:'100%', color:'#ff4757', borderBottom:'1px solid var(--border-color)', cursor:'pointer'}} onClick={handleLogout}>Sign Out</button>
+            </>
+          ) : (
+            <Link to="/login" className={styles.menuItem} onClick={() => setIsMobileMenuOpen(false)}>Sign In</Link>
+          )}
         </div>
       </div>
 

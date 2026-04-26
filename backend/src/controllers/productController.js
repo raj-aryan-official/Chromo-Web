@@ -4,8 +4,23 @@ const Product = require('../models/Product');
 // @route   GET /api/products
 const getProducts = async (req, res) => {
   try {
-    const products = await Product.find({});
-    res.json(products);
+    const products = await Product.find({}).sort({ createdAt: -1 });
+
+    const fifteenDaysAgo = new Date();
+    fifteenDaysAgo.setDate(fifteenDaysAgo.getDate() - 15);
+
+    const updatedProducts = products.map(product => {
+      const p = product.toObject();
+      const isNew = new Date(p.createdAt) >= fifteenDaysAgo;
+      
+      if (!p.tags) p.tags = [];
+      if (isNew && !p.tags.includes('new')) {
+        p.tags.push('new');
+      }
+      return p;
+    });
+
+    res.json(updatedProducts);
   } catch (err) {
     res.status(500).json({ message: 'Server Error fetching products.' });
   }
