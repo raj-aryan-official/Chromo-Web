@@ -40,7 +40,7 @@ const ProductPage = () => {
     fetchProduct();
 
     if (currentUser) {
-      fetch(`http://localhost:5000/api/users/${currentUser.uid}`)
+      fetch(`${import.meta.env.VITE_API_URL || 'http://localhost:5000'}/api/users/${currentUser.uid}`)
         .then(res => res.json())
         .then(data => {
           if (data.likedPaints && data.likedPaints.some(p => (p._id || p) === id)) {
@@ -55,7 +55,7 @@ const ProductPage = () => {
     
     setIsLiked(!isLiked);
     try {
-      await fetch(`http://localhost:5000/api/users/${currentUser.uid}/like`, {
+      await fetch(`${import.meta.env.VITE_API_URL || 'http://localhost:5000'}/api/users/${currentUser.uid}/like`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ productId: id })

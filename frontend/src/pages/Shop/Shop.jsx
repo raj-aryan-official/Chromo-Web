@@ -40,7 +40,7 @@ const Shop = () => {
   ];
 
   useEffect(() => {
-    fetch('http://localhost:5000/api/products')
+    fetch(`${import.meta.env.VITE_API_URL || 'http://localhost:5000'}/api/products`)
       .then(res => res.json())
       .then(data => {
         setProducts(data.sort(() => Math.random() - 0.5));
@@ -48,7 +48,7 @@ const Shop = () => {
       });
 
     if (currentUser) {
-      fetch(`http://localhost:5000/api/users/${currentUser.uid}`)
+      fetch(`${import.meta.env.VITE_API_URL || 'http://localhost:5000'}/api/users/${currentUser.uid}`)
         .then(res => res.json())
         .then(data => {
           if (data.likedPaints) {
@@ -66,7 +66,7 @@ const Shop = () => {
     
     setLikedMap(prev => ({...prev, [productId]: !prev[productId]}));
     try {
-      await fetch(`http://localhost:5000/api/users/${currentUser.uid}/like`, {
+      await fetch(`${import.meta.env.VITE_API_URL || 'http://localhost:5000'}/api/users/${currentUser.uid}/like`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ productId })

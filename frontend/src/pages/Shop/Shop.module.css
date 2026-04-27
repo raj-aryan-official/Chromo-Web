@@ -275,7 +275,7 @@
     min-width: 250px;
   }
   .filterGroup ul {
-    flex-direction: row;
-    flex-wrap: wrap;
+    flex-direction: column;
+    gap: 0.25rem;
   }
 }

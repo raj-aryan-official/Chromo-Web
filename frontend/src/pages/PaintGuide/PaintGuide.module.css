@@ -24,6 +24,7 @@
   margin-bottom: 1rem;
   background: linear-gradient(135deg, #00C9FF 0%, #92FE9D 100%);
   -webkit-background-clip: text;
+  background-clip: text;
   -webkit-text-fill-color: transparent;
 }
 
@@ -178,5 +179,36 @@
   .videoSection {
     grid-template-columns: 1fr;
     text-align: center;
+  }
+}
+
+@media (max-width: 600px) {
+  .mainContainer {
+    padding: 2rem 1rem;
+  }
+  
+  .header h1 {
+    font-size: 2rem;
+  }
+  
+  .header p {
+    font-size: 1rem;
+  }
+  
+  .card {
+    padding: 1.5rem 1rem;
+  }
+  
+  .videoSection {
+    padding: 1.5rem 1rem;
+    gap: 1.5rem;
+  }
+  
+  .videoInfo h2 {
+    font-size: 1.5rem;
+  }
+  
+  .videoPlaceholder {
+    border-radius: 8px;
   }
 }

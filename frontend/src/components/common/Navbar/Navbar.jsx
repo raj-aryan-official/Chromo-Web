@@ -193,6 +193,7 @@ const Navbar = () => {
   const unreadCount = notifications.filter(n => !readIds.has(n.id)).length;
 
   return (
+    <>
     <nav className={styles.navbar} style={isScrolled ? { boxShadow: '0 5px 20px rgba(0,0,0,0.3)' } : {}}>
       
       <div className={styles.topSection}>
@@ -257,20 +258,7 @@ const Navbar = () => {
             <Link
               to="/admin"
               title="Admin Dashboard"
-              style={{
-                display: 'flex',
-                alignItems: 'center',
-                gap: '6px',
-                background: 'linear-gradient(135deg, #00C9FF, #92FE9D)',
-                color: '#05050c',
-                padding: '6px 16px',
-                borderRadius: '20px',
-                fontWeight: 700,
-                fontSize: '0.85rem',
-                textDecoration: 'none',
-                boxShadow: '0 0 14px rgba(0,201,255,0.5)',
-                letterSpacing: '0.3px'
-              }}
+              className={styles.adminLink}
             >
               <Shield size={16} />
               Admin
@@ -373,38 +361,107 @@ const Navbar = () => {
 
       <QuickLinks />
 
-      {/* MOBILE HAMBURGER MENU */}
-      <div className={`${styles.menuOverlay} ${isMobileMenuOpen ? styles.show : ''}`} onClick={() => setIsMobileMenuOpen(false)}></div>
-      <div className={`${styles.mobileMenu} ${isMobileMenuOpen ? styles.open : ''}`}>
-        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '1rem' }}>
-          <h3 style={{color: '#888', margin: 0, textTransform: 'uppercase', fontSize: '0.9rem'}}>Main Menu</h3>
-          <button className={styles.closeMenuBtn} style={{ margin: 0, float: 'none' }} onClick={() => setIsMobileMenuOpen(false)}>
-            <X size={28} />
+    </nav>
+
+    {/* MOBILE OVERLAY + MENU — outside <nav> to avoid stacking context trap */}
+    <div className={`${styles.menuOverlay} ${isMobileMenuOpen ? styles.show : ''}`} onClick={() => setIsMobileMenuOpen(false)}></div>
+    <div className={`${styles.mobileMenu} ${isMobileMenuOpen ? styles.open : ''}`} onClick={(e) => e.stopPropagation()}>
+
+        {/* ── Fixed Header ── */}
+        <div className={styles.menuHeader}>
+          <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
+            <div className={styles.logoIcon} style={{ width: 30, height: 30 }}>
+              <Paintbrush size={17} color="#05050c" />
+            </div>
+            <span style={{ fontWeight: 800, fontSize: '1.15rem', color: '#fff' }}>Chromo</span>
+          </div>
+          <button className={styles.closeMenuBtn} onClick={() => setIsMobileMenuOpen(false)} aria-label="Close menu">
+            <X size={22} />
           </button>
         </div>
-        <div className={styles.menuCategories}>
-          <Link to="/" className={styles.menuItem} onClick={() => setIsMobileMenuOpen(false)}>Home</Link>
-          <Link to="/shop" className={styles.menuItem} onClick={() => setIsMobileMenuOpen(false)}>All Products</Link>
-          <Link to="/paints" className={styles.menuItem} onClick={() => setIsMobileMenuOpen(false)}>Premium Paints</Link>
-          
-          <h3 style={{color: '#888', margin: '2rem 0 1rem', textTransform: 'uppercase', fontSize: '0.9rem'}}>Studio & Tools</h3>
-          <Link to="/palette-studio" className={styles.menuItem} onClick={() => setIsMobileMenuOpen(false)}>Palette Studio</Link>
-          <Link to="/calculator" className={styles.menuItem} onClick={() => setIsMobileMenuOpen(false)}>Paint Calculator</Link>
 
-          <h3 style={{color: '#888', margin: '2rem 0 1rem', textTransform: 'uppercase', fontSize: '0.9rem'}}>Account & Support</h3>
-          <Link to="/expert" className={styles.menuItem} onClick={() => setIsMobileMenuOpen(false)}>Live Consultations</Link>
+        {/* ── Scrollable Body ── */}
+        <div className={styles.menuScrollArea}>
+
+          {/* User Card */}
           {currentUser ? (
-            <>
-              <Link to="/orders" className={styles.menuItem} onClick={() => setIsMobileMenuOpen(false)}>My Orders</Link>
-              <button className={styles.menuItem} style={{background:'none', border:'none', textAlign:'left', width:'100%', color:'#ff4757', borderBottom:'1px solid var(--border-color)', cursor:'pointer'}} onClick={handleLogout}>Sign Out</button>
-            </>
+            <div className={styles.mobileUserSection} style={{ marginTop: '1rem' }}>
+              <div className={styles.mobileUserAvatar}>
+                {currentUser.email?.[0]?.toUpperCase() || 'U'}
+              </div>
+              <div className={styles.mobileUserInfo}>
+                <div className={styles.mobileUserName}>{currentUser.email?.split('@')[0]}</div>
+                <div className={styles.mobileUserEmail}>{currentUser.email}</div>
+              </div>
+            </div>
           ) : (
-            <Link to="/login" className={styles.menuItem} onClick={() => setIsMobileMenuOpen(false)}>Sign In</Link>
+            <Link
+              to="/login"
+              className={styles.menuItem}
+              style={{ background: 'linear-gradient(135deg,#00C9FF,#92FE9D)', color: '#05050c', justifyContent: 'center', fontWeight: 700, marginTop: '1rem' }}
+              onClick={() => setIsMobileMenuOpen(false)}
+            >
+              Sign In to Chromo
+            </Link>
           )}
+
+          {/* ── Shop ── */}
+          <p className={styles.menuSectionLabel}>Shop</p>
+          <Link to="/" className={styles.menuItem} onClick={() => setIsMobileMenuOpen(false)}>🏠 Home</Link>
+          <Link to="/shop" className={styles.menuItem} onClick={() => setIsMobileMenuOpen(false)}>🛍️ All Products</Link>
+          <Link to="/paints" className={styles.menuItem} onClick={() => setIsMobileMenuOpen(false)}>🎨 Premium Paints</Link>
+          <Link to="/paints?category=new" className={styles.menuItem} onClick={() => setIsMobileMenuOpen(false)}>✨ New Colors</Link>
+
+          {/* ── Studio & Tools ── */}
+          <p className={styles.menuSectionLabel}>Studio & Tools</p>
+          <Link to="/palette-studio" className={styles.menuItem} onClick={() => setIsMobileMenuOpen(false)}>🖌️ Palette Studio</Link>
+          <Link to="/calculator" className={styles.menuItem} onClick={() => setIsMobileMenuOpen(false)}>🧮 Paint Calculator</Link>
+          <Link to="/paint-guide" className={styles.menuItem} onClick={() => setIsMobileMenuOpen(false)}>📖 Paint Guide</Link>
+
+          {/* ── Support ── */}
+          <p className={styles.menuSectionLabel}>Support</p>
+          <Link to="/expert" className={styles.menuItem} onClick={() => setIsMobileMenuOpen(false)}>👨‍🔧 Connect to Expert</Link>
+
+          {/* ── Account (logged in) ── */}
+          {currentUser && (
+            <>
+              <p className={styles.menuSectionLabel}>My Account</p>
+              <Link to="/orders" className={styles.menuItem} onClick={() => setIsMobileMenuOpen(false)}>📦 My Orders</Link>
+              <Link to="/liked-paints" className={styles.menuItem} onClick={() => setIsMobileMenuOpen(false)}>❤️ Liked Paints</Link>
+              <Link to="/saved-palettes" className={styles.menuItem} onClick={() => setIsMobileMenuOpen(false)}>🎨 Saved Palettes</Link>
+              <Link to="/cart" className={styles.menuItem} onClick={() => setIsMobileMenuOpen(false)}>🛒 My Cart</Link>
+              <Link to="/profile" className={styles.menuItem} onClick={() => setIsMobileMenuOpen(false)}>⚙️ Settings & Profile</Link>
+
+              {/* Admin (only visible for admin) */}
+              {(userRole === 'admin' || currentUser?.email === 'rajaryan620666@gmail.com') && (
+                <Link to="/admin" className={styles.menuItem} onClick={() => setIsMobileMenuOpen(false)} style={{ color: '#00C9FF' }}>
+                  🛡️ Admin Dashboard
+                </Link>
+              )}
+
+              <div className={styles.menuDivider} />
+              <button
+                className={styles.menuSignOutBtn}
+                onClick={() => { setIsMobileMenuOpen(false); handleLogout(); }}
+              >
+                🚪 Sign Out
+              </button>
+            </>
+          )}
+
+          {/* Not logged in — show links */}
+          {!currentUser && (
+            <>
+              <p className={styles.menuSectionLabel}>Account</p>
+              <Link to="/login" className={styles.menuItem} onClick={() => setIsMobileMenuOpen(false)}>🔑 Sign In</Link>
+              <Link to="/register" className={styles.menuItem} onClick={() => setIsMobileMenuOpen(false)}>✍️ Create Account</Link>
+            </>
+          )}
+
         </div>
       </div>
 
-    </nav>
+    </>
   );
 };
 

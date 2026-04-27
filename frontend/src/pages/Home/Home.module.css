@@ -575,3 +575,34 @@
     width: 100%;
   }
 }
+
+@media (max-width: 600px) {
+  .heroContent h1 {
+    font-size: 2.2rem;
+  }
+  .heroSection {
+    padding: 2rem 1rem;
+    margin-bottom: 2rem;
+  }
+  .floatingPaintCan {
+    font-size: 5rem;
+  }
+  .mainContent {
+    padding: 1rem;
+  }
+  .otherContent {
+    padding: 2rem 1rem;
+  }
+  .otherContent h2 {
+    font-size: 1.8rem;
+  }
+  .dealsCard {
+    padding: 1.5rem;
+  }
+  .dealContent h3 {
+    font-size: 1.3rem;
+  }
+  .sectionHeader h2 {
+    font-size: 1.5rem;
+  }
+}

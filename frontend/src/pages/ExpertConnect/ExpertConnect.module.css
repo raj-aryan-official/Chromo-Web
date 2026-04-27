@@ -179,3 +179,20 @@
     justify-content: center;
   }
 }
+
+@media (max-width: 600px) {
+  .heroText h1 {
+    font-size: 2.2rem;
+  }
+  .heroActions {
+    flex-direction: column;
+    width: 100%;
+  }
+  .primaryBtn, .secondaryBtn {
+    width: 100%;
+    justify-content: center;
+  }
+  .expertGrid {
+    grid-template-columns: 1fr;
+  }
+}

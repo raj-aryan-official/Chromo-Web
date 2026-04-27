@@ -48,7 +48,7 @@ const PaletteStudio = () => {
     
     setSaving(true);
     try {
-      const res = await fetch(`http://localhost:5000/api/users/${currentUser.uid}/palette`, {
+      const res = await fetch(`${import.meta.env.VITE_API_URL || 'http://localhost:5000'}/api/users/${currentUser.uid}/palette`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ name: 'My Custom Palette', colors: selectedColors })

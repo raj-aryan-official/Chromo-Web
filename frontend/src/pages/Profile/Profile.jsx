@@ -167,7 +167,7 @@ const Profile = () => {
 
   const handleUnlike = async (productId) => {
     try {
-      const res = await fetch(`http://localhost:5000/api/users/${currentUser.uid}/like`, {
+      const res = await fetch(`${import.meta.env.VITE_API_URL || 'http://localhost:5000'}/api/users/${currentUser.uid}/like`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ productId })

@@ -12,7 +12,7 @@ const SavedPalettes = () => {
 
   useEffect(() => {
     if (!currentUser) return;
-    fetch(`http://localhost:5000/api/users/${currentUser.uid}`)
+    fetch(`${import.meta.env.VITE_API_URL || 'http://localhost:5000'}/api/users/${currentUser.uid}`)
       .then(res => res.json())
       .then(data => {
         setPalettes(data.savedPalettes || []);

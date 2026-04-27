@@ -23,20 +23,17 @@ const PaintCalculator = () => {
   const [unit, setUnit] = useState('sqft'); // 'sqft' or 'sqm'
   const [paintType, setPaintType] = useState('Emulsion');
   const [surfaceType, setSurfaceType] = useState('Smooth');
-  const [wastagePercent, setWastagePercent] = useState(10);
+  const [wastagePercent, setWastagePercent] = useState(0);
   
   // Dimensions
-  const [length, setLength] = useState(12);
-  const [width, setWidth] = useState(12);
-  const [height, setHeight] = useState(9);
+  const [length, setLength] = useState(0);
+  const [width, setWidth] = useState(0);
+  const [height, setHeight] = useState(0);
   const [includeCeiling, setIncludeCeiling] = useState(false);
-  const [coats, setCoats] = useState(2);
+  const [coats, setCoats] = useState(0);
   
   // Openings tracking
-  const [openings, setOpenings] = useState([
-    { id: 1, type: 'Window', width: 3, height: 4 },
-    { id: 2, type: 'Door', width: 3, height: 7 }
-  ]);
+  const [openings, setOpenings] = useState([]);
 
   const addOpening = (type) => {
     const defaultW = type === 'Window' ? 3 : 3;
@@ -125,7 +122,7 @@ const PaintCalculator = () => {
               <div className={styles.inputGroup}>
                 <label>Room Length</label>
                 <div className={styles.numberInput}>
-                  <button onClick={() => setLength(Math.max(1, length - 1))}><Minus size={16}/></button>
+                  <button onClick={() => setLength(Math.max(0, length - 1))}><Minus size={16}/></button>
                   <input type="number" value={length} onChange={(e) => setLength(Number(e.target.value))} />
                   <button onClick={() => setLength(length + 1)}><Plus size={16}/></button>
                 </div>
@@ -134,7 +131,7 @@ const PaintCalculator = () => {
               <div className={styles.inputGroup}>
                 <label>Room Width</label>
                 <div className={styles.numberInput}>
-                  <button onClick={() => setWidth(Math.max(1, width - 1))}><Minus size={16}/></button>
+                  <button onClick={() => setWidth(Math.max(0, width - 1))}><Minus size={16}/></button>
                   <input type="number" value={width} onChange={(e) => setWidth(Number(e.target.value))} />
                   <button onClick={() => setWidth(width + 1)}><Plus size={16}/></button>
                 </div>
@@ -143,7 +140,7 @@ const PaintCalculator = () => {
               <div className={styles.inputGroup}>
                 <label>Wall Height</label>
                 <div className={styles.numberInput}>
-                  <button onClick={() => setHeight(Math.max(1, height - 1))}><Minus size={16}/></button>
+                  <button onClick={() => setHeight(Math.max(0, height - 1))}><Minus size={16}/></button>
                   <input type="number" value={height} onChange={(e) => setHeight(Number(e.target.value))} />
                   <button onClick={() => setHeight(height + 1)}><Plus size={16}/></button>
                 </div>
@@ -201,7 +198,7 @@ const PaintCalculator = () => {
               <div className={styles.inputGroup}>
                 <label>Number of Coats</label>
                 <div className={styles.numberInput}>
-                  <button onClick={() => setCoats(Math.max(1, coats - 1))}><Minus size={16}/></button>
+                  <button onClick={() => setCoats(Math.max(0, coats - 1))}><Minus size={16}/></button>
                   <input type="number" value={coats} onChange={(e) => setCoats(Number(e.target.value))} />
                   <button onClick={() => setCoats(coats + 1)}><Plus size={16}/></button>
                 </div>
@@ -210,6 +207,7 @@ const PaintCalculator = () => {
               <div className={styles.inputGroup} style={{flexDirection: 'column', alignItems: 'flex-start', gap: '0.5rem'}}>
                 <label>Real-world Wastage buffer</label>
                 <select className={styles.selectInput} value={wastagePercent} onChange={e => setWastagePercent(Number(e.target.value))}>
+                  <option value={0}>0% (No wastage buffer)</option>
                   <option value={5}>5% (Professional painter, rigid control)</option>
                   <option value={10}>10% (Standard / Safe buffer)</option>
                   <option value={15}>15% (DIY / Spillage / Complex routing)</option>
