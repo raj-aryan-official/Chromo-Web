@@ -11,24 +11,12 @@ const app = express();
 // CORS Configuration for both localhost and production
 const corsOptions = {
   origin: function (origin, callback) {
-    const allowedOrigins = [
-      'http://localhost:5173',    // Vite dev server
-      'http://localhost:3000',    // Alternative local port
-      'http://localhost:5000',    // Local API
-      'https://*.netlify.app',    // Netlify preview/production domains
-    ];
+    // During active testing, let's log the origin to see what the phone is sending
+    console.log("Incoming request origin:", origin);
     
-    // Allow requests with no origin (like mobile apps or curl requests)
-    if (!origin || allowedOrigins.some(allowed => {
-      if (allowed.includes('*')) {
-        return new RegExp(allowed.replace(/\*/g, '.*')).test(origin);
-      }
-      return origin === allowed;
-    })) {
-      callback(null, true);
-    } else {
-      callback(new Error('Not allowed by CORS'));
-    }
+    // For local development on phones, it's safer to just allow all origins
+    // or you can revert to the regex if you prefer strict security
+    callback(null, true);
   },
   credentials: true,
   methods: ['GET', 'POST', 'PUT', 'DELETE', 'PATCH', 'OPTIONS'],

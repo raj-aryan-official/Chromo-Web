@@ -6,6 +6,7 @@ import Footer from '../../components/common/Footer/Footer';
 import { useCart } from '../../context/CartContext';
 import { useAuth } from '../../context/AuthContext';
 import { Heart, Eye } from 'lucide-react';
+import API_URL from '../../config';
 import styles from './Paints.module.css';
 
 const Paints = () => {
@@ -24,15 +25,16 @@ const Paints = () => {
   const { currentUser } = useAuth();
 
   useEffect(() => {
-    fetch(`${import.meta.env.VITE_API_URL || 'http://localhost:5000'}/api/products`)
+    fetch(`${API_URL}/api/products`)
       .then(res => res.json())
       .then(data => {
         setPaintProducts(data);
         setLoading(false);
-      });
+      })
+      .catch(() => setLoading(false));
 
     if (currentUser) {
-      fetch(`${import.meta.env.VITE_API_URL || 'http://localhost:5000'}/api/users/${currentUser.uid}`)
+      fetch(`${API_URL}/api/users/${currentUser.uid}`)
         .then(res => res.json())
         .then(data => {
           if (data.likedPaints) {
@@ -50,7 +52,7 @@ const Paints = () => {
     
     setLikedMap(prev => ({...prev, [productId]: !prev[productId]}));
     try {
-      await fetch(`${import.meta.env.VITE_API_URL || 'http://localhost:5000'}/api/users/${currentUser.uid}/like`, {
+      await fetch(`${API_URL}/api/users/${currentUser.uid}/like`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ productId })

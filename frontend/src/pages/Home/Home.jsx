@@ -22,10 +22,11 @@ const Home = () => {
       .then(data => {
         setFeaturedPaints(data.slice(0, 4));
         setLoading(false);
-      });
+      })
+      .catch(() => setLoading(false));
 
     if (currentUser) {
-      fetch(`${import.meta.env.VITE_API_URL || 'http://localhost:5000'}/api/users/${currentUser.uid}`)
+      fetch(`${API_URL}/api/users/${currentUser.uid}`)
         .then(res => res.json())
         .then(data => {
           if (data.likedPaints) {
@@ -43,7 +44,7 @@ const Home = () => {
 
     setLikedMap(prev => ({ ...prev, [productId]: !prev[productId] }));
     try {
-      await fetch(`${import.meta.env.VITE_API_URL || 'http://localhost:5000'}/api/users/${currentUser.uid}/like`, {
+      await fetch(`${API_URL}/api/users/${currentUser.uid}/like`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ productId })
@@ -53,11 +54,13 @@ const Home = () => {
     }
   };
 
+  const fallbackBrandImage = 'https://images.unsplash.com/photo-1519710164239-da123dc03ef4?auto=format&fit=crop&w=800&q=80';
+
   const companies = [
-    { name: "Asian Paints", img: "https://images.unsplash.com/photo-1562259942-ed8de1d52044?w=400", bg: "#ffffff" },
-    { name: "Berger Paints", img: "https://images.unsplash.com/photo-1589939705384-5185137a7f0f?w=400", bg: "#ffffff" },
-    { name: "Nerolac", img: "https://images.unsplash.com/photo-1574342416972-e10398f6d8fb?w=400", bg: "#ffffff" },
-    { name: "Dulux", img: "https://images.unsplash.com/photo-1550684376-efcbd6e3f031?w=400", bg: "#ffffff" },
+    { name: "Asian Paints", img: "https://images.unsplash.com/photo-1557682250-6e3573035c17?auto=format&fit=crop&w=600&q=80", bg: "#ffffff" },
+    { name: "Berger Paints", img: "https://images.unsplash.com/photo-1505693416388-ac5ce068fe85?auto=format&fit=crop&w=600&q=80", bg: "#ffffff" },
+    { name: "Nerolac", img: "https://images.unsplash.com/photo-1494526585095-c41746248156?auto=format&fit=crop&w=600&q=80", bg: "#ffffff" },
+    { name: "Dulux", img: "https://images.unsplash.com/photo-1581091215367-6dd70cc27444?auto=format&fit=crop&w=600&q=80", bg: "#ffffff" },
   ];
 
   const types = [
@@ -92,7 +95,35 @@ const Home = () => {
             </button>
           </div>
           <div className={styles.heroImage}>
-            <div className={styles.floatingPaintCan}>🎨</div>
+            <img
+              src="https://images.unsplash.com/photo-1505693416388-ac5ce068fe85?auto=format&fit=crop&w=900&q=80"
+              alt="Living room painting setup"
+              className={styles.heroImagePhoto}
+            />
+          </div>
+        </section>
+
+        <section className={styles.quickInfoSection}>
+          <div className={styles.quickInfoHeader}>
+            <h2>Paint Buying, Simplified</h2>
+            <p>Smart recommendations, fast delivery, and expert finishes—designed for every home and every budget.</p>
+          </div>
+          <div className={styles.quickInfoGrid}>
+            <div className={styles.quickInfoCard}>
+              <span>1</span>
+              <h3>Browse curated collections</h3>
+              <p>Explore top-rated shades, textures, and brand bundles in one place.</p>
+            </div>
+            <div className={styles.quickInfoCard}>
+              <span>2</span>
+              <h3>Compare finishes instantly</h3>
+              <p>See matte, satin, and gloss options side-by-side for every room.</p>
+            </div>
+            <div className={styles.quickInfoCard}>
+              <span>3</span>
+              <h3>Order with confidence</h3>
+              <p>Fast fulfillment, spill-proof packaging, and expert support included.</p>
+            </div>
           </div>
         </section>
 
@@ -106,7 +137,13 @@ const Home = () => {
             {companies.map((company, idx) => (
               <div key={idx} className={styles.companyCard} onClick={() => navigate('/paints')} style={{ background: company.bg || 'rgba(255,255,255,0.05)' }}>
                 <div className={styles.logoWrapper}>
-                  <img src={company.img} alt={company.name} className={styles.actualLogo} />
+                  <img
+                    src={company.img}
+                    alt={company.name}
+                    className={styles.actualLogo}
+                    loading="lazy"
+                    onError={(e) => { e.currentTarget.onerror = null; e.currentTarget.src = fallbackBrandImage; }}
+                  />
                 </div>
                 <h3 className={styles.companyNameText}>{company.name}</h3>
               </div>
@@ -154,7 +191,7 @@ const Home = () => {
                   </div>
                   <div className={styles.productInfo}>
                     <div className={styles.productHeader}>
-                      <h3 className={styles.productName}>{paint.name}</h3>
+                      <h3 className={styles.productName}>{paint.name || paint.title || paint.company || 'Premium Paint'}</h3>
                       <span className={styles.productPrice}>₹{paint.variants[0]?.price.toLocaleString('en-IN') || 0}</span>
                     </div>
                     <span className={styles.productType}>{paint.company} - {paint.type}</span>

@@ -382,12 +382,12 @@
   text-align: left;
   font-size: 0.95rem;
   cursor: pointer;
-  transition: background 0.2s;
+  transition: background 0.2s, color 0.2s;
 }
 
 .accountLinks a:hover, .accountLinks button:hover {
   background: var(--bg-hover, rgba(255,255,255,0.05));
-  color: #00C9FF;
+  color: inherit;
 }
 
 .signOutBtn {
@@ -432,6 +432,7 @@
 .adminBtn:hover {
   transform: translateY(-2px);
   box-shadow: 0 0 22px rgba(0, 201, 255, 0.7);
+  color: #666;
 }
 
 

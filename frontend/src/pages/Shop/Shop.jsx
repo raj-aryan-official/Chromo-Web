@@ -5,6 +5,7 @@ import { useCart } from '../../context/CartContext';
 import { useAuth } from '../../context/AuthContext';
 import { Heart, Eye, Filter, ChevronDown, ChevronRight } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
+import API_URL from '../../config';
 import styles from './Shop.module.css';
 
 const Shop = () => {
@@ -40,15 +41,16 @@ const Shop = () => {
   ];
 
   useEffect(() => {
-    fetch(`${import.meta.env.VITE_API_URL || 'http://localhost:5000'}/api/products`)
+    fetch(`${API_URL}/api/products`)
       .then(res => res.json())
       .then(data => {
         setProducts(data.sort(() => Math.random() - 0.5));
         setLoading(false);
-      });
+      })
+      .catch(() => setLoading(false));
 
     if (currentUser) {
-      fetch(`${import.meta.env.VITE_API_URL || 'http://localhost:5000'}/api/users/${currentUser.uid}`)
+      fetch(`${API_URL}/api/users/${currentUser.uid}`)
         .then(res => res.json())
         .then(data => {
           if (data.likedPaints) {
@@ -66,7 +68,7 @@ const Shop = () => {
     
     setLikedMap(prev => ({...prev, [productId]: !prev[productId]}));
     try {
-      await fetch(`${import.meta.env.VITE_API_URL || 'http://localhost:5000'}/api/users/${currentUser.uid}/like`, {
+      await fetch(`${API_URL}/api/users/${currentUser.uid}/like`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ productId })

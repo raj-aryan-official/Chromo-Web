@@ -19,7 +19,27 @@ const ProductPage = () => {
   const [quantity, setQuantity] = useState(1);
   const [adding, setAdding] = useState(false);
   const [isLiked, setIsLiked] = useState(false);
+  const [userProfile, setUserProfile] = useState(null);
+  const [isUserProfileLoading, setIsUserProfileLoading] = useState(false);
   const { currentUser } = useAuth();
+
+  const hasSavedAddress = userProfile?.addresses?.length > 0;
+  const hasSavedPayment = Boolean(
+    (userProfile?.paymentMethods?.length) ||
+    userProfile?.paymentMethod ||
+    userProfile?.preferredPayment ||
+    userProfile?.savedPaymentMethod
+  );
+  const isBuyNowEligible = Boolean(currentUser && hasSavedAddress && hasSavedPayment);
+  const buyNowHint = !currentUser
+    ? 'Login to use Buy Now.'
+    : isUserProfileLoading
+      ? 'Checking your saved checkout details...'
+      : !hasSavedAddress
+        ? 'Add a saved address to unlock Buy Now.'
+        : !hasSavedPayment
+          ? 'Save a payment method to unlock Buy Now.'
+          : 'Using your saved address and payment for a faster checkout.';
 
   useEffect(() => {
     const fetchProduct = async () => {
@@ -38,17 +58,33 @@ const ProductPage = () => {
       }
     };
     fetchProduct();
+  }, [id]);
 
-    if (currentUser) {
-      fetch(`${import.meta.env.VITE_API_URL || 'http://localhost:5000'}/api/users/${currentUser.uid}`)
-        .then(res => res.json())
-        .then(data => {
-          if (data.likedPaints && data.likedPaints.some(p => (p._id || p) === id)) {
-            setIsLiked(true);
-          }
-        });
+  useEffect(() => {
+    if (!currentUser) {
+      setUserProfile(null);
+      return;
     }
-  }, [id, currentUser]);
+
+    const fetchUserProfile = async () => {
+      setIsUserProfileLoading(true);
+      try {
+        const res = await fetch(`${API_URL}/api/users/${currentUser.uid}`);
+        if (!res.ok) throw new Error('Unable to load user profile');
+        const data = await res.json();
+        setUserProfile(data);
+        if (data.likedPaints && data.likedPaints.some(p => (p._id || p) === id)) {
+          setIsLiked(true);
+        }
+      } catch (err) {
+        console.error(err);
+      } finally {
+        setIsUserProfileLoading(false);
+      }
+    };
+
+    fetchUserProfile();
+  }, [currentUser, id]);
 
   const handleLikeToggle = async () => {
     if (!currentUser) return alert("Please log in to like paints.");
@@ -73,6 +109,18 @@ const ProductPage = () => {
     if (success) {
       // Optional: Show a nice toast rather than navigating
       // navigate('/cart');
+    }
+  };
+
+  const handleBuyNow = async () => {
+    if (!product || !selectedVariant) return;
+
+    setAdding(true);
+    const success = await addToCart(product._id, selectedVariant, quantity);
+    setAdding(false);
+
+    if (success) {
+      navigate('/cart');
     }
   };
 
@@ -214,7 +262,14 @@ const ProductPage = () => {
                 <ShoppingCart size={18} />
                 {adding ? 'Adding...' : 'Add to Cart'}
               </button>
-              <button className={styles.buyNowBtn}>Buy Now</button>
+              <button 
+                className={styles.buyNowBtn}
+                onClick={handleBuyNow}
+                disabled={adding}
+              >
+                {adding ? 'Processing...' : 'Buy Now'}
+              </button>
+              <p className={styles.buyNowHint}>{buyNowHint}</p>
 
               <div className={styles.secureTransaction}>
                 <ShieldCheck size={16} color="#9ca3af" /> Secure transaction via ChronoPay
