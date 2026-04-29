@@ -67,8 +67,18 @@ const Paints = () => {
     return [...paintProducts].sort(() => Math.random() - 0.5);
   }, [paintProducts]);
 
+  function isPaintProduct(product) {
+    const paintTypeKeywords = ['satin', 'enamel', 'matte', 'gloss', 'acrylic', 'latex', 'primer', 'paint'];
+    if (product.tags?.includes('paint')) return true;
+    if (!product.tags || product.tags.length === 0) {
+      const type = (product.type || '').toLowerCase();
+      return paintTypeKeywords.some(keyword => type.includes(keyword));
+    }
+    return false;
+  }
+
   const filteredPaints = shuffledPaints.filter(paint => {
-    const isPaint = paint.tags && paint.tags.includes('paint');
+    const isPaint = isPaintProduct(paint);
     if (!isPaint && activeTab === 'All') return false; // Hide non-paint accessories
 
     const matchesSearch = paint.name.toLowerCase().includes(searchTerm.toLowerCase()) || 
@@ -79,7 +89,7 @@ const Paints = () => {
     return matchesSearch && matchesTab && matchesCategory && matchesBrand;
   });
 
-  const availableBrands = ['All Brands', ...new Set(paintProducts.filter(p => p.tags?.includes('paint')).map(p => p.company))].filter(Boolean);
+  const availableBrands = ['All Brands', ...new Set(paintProducts.filter(isPaintProduct).map(p => p.company))].filter(Boolean);
 
   const handleQuickView = (e, id) => {
     e.stopPropagation();

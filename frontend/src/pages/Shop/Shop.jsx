@@ -78,6 +78,16 @@ const Shop = () => {
     }
   };
 
+  const isPaintProduct = (product) => {
+    const paintTypeKeywords = ['satin', 'enamel', 'matte', 'gloss', 'acrylic', 'latex', 'primer', 'paint'];
+    if (product.tags?.includes('paint')) return true;
+    if (!product.tags || product.tags.length === 0) {
+      const type = (product.type || '').toLowerCase();
+      return paintTypeKeywords.some(keyword => type.includes(keyword));
+    }
+    return false;
+  };
+
   const handleQuickAdd = async (e, product) => {
     e.stopPropagation();
     if (product.variants && product.variants.length > 0) {
@@ -94,7 +104,7 @@ const Shop = () => {
     // Some products from Paints have types like Enamel, Matte, but their tags include 'paint'
     const isPaintCategorySelected = selectedCategory === 'Paint';
     const matchesCategory = selectedCategory === 'All' ? true 
-        : isPaintCategorySelected ? p.tags?.includes('paint')
+        : isPaintCategorySelected ? isPaintProduct(p)
         : pCat === selectedCategory;
         
     const matchesBrand = selectedBrand === 'All' ? true : p.company === selectedBrand;
