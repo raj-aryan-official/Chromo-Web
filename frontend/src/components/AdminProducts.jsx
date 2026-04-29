@@ -24,10 +24,12 @@ function AdminProducts({ userToken }) {
     variants: [{ weight: '', price: '' }]
   });
 
-  // Fetch products on mount
+  // Fetch products when the user token becomes available
   useEffect(() => {
-    fetchProducts();
-  }, []);
+    if (userToken) {
+      fetchProducts();
+    }
+  }, [userToken]);
 
   const fetchProducts = async () => {
     try {
@@ -172,35 +174,19 @@ function AdminProducts({ userToken }) {
 
   return (
     <div className="admin-products">
-      <div className="products-header" style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexWrap: 'wrap', gap: '1rem' }}>
+      <div className="products-header">
         <h2>Product Management</h2>
         
-        <div style={{ display: 'flex', gap: '1rem', flex: 1, paddingLeft: '2rem' }}>
+        <div className="products-controls">
           <input 
             type="text" 
             placeholder="Search products..." 
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
-            style={{
-              padding: '0.6rem 1rem',
-              borderRadius: '8px',
-              border: '1px solid #444',
-              background: '#1a1a24',
-              color: '#fff',
-              flex: 1,
-              maxWidth: '300px'
-            }}
           />
           <select 
             value={filterCompany}
             onChange={(e) => setFilterCompany(e.target.value)}
-            style={{
-              padding: '0.6rem 1rem',
-              borderRadius: '8px',
-              border: '1px solid #444',
-              background: '#1a1a24',
-              color: '#fff'
-            }}
           >
             <option value="">All Companies</option>
             {allCompanies.map(c => <option key={c} value={c}>{c}</option>)}

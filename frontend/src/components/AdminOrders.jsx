@@ -16,10 +16,16 @@ function AdminOrders({ userToken }) {
 
   const orderStatuses = ['Processing', 'Shipped', 'Out for Delivery', 'Delivered', 'Cancelled'];
 
-  // Fetch orders and stats on mount
+  // Fetch orders and stats when user token is available
   useEffect(() => {
+    if (!userToken) {
+      setLoading(false);
+      setError('Authentication token is required to load admin orders.');
+      return;
+    }
+
     fetchOrdersAndStats();
-  }, []);
+  }, [userToken]);
 
   const fetchOrdersAndStats = async () => {
     try {
@@ -32,7 +38,7 @@ function AdminOrders({ userToken }) {
       setStats(statsData.stats || null);
       setError('');
     } catch (err) {
-      setError('Failed to fetch orders');
+      setError(err.message || 'Failed to fetch orders');
       console.error(err);
     } finally {
       setLoading(false);

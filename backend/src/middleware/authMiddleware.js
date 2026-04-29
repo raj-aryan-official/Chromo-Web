@@ -1,5 +1,13 @@
 const User = require('../models/User');
 
+const getAdminEmails = () => {
+  const envEmails = process.env.ADMIN_EMAILS || 'rajaryan620666@gmail.com';
+  return envEmails
+    .split(',')
+    .map((email) => email.trim().toLowerCase())
+    .filter(Boolean);
+};
+
 /**
  * Middleware to verify Firebase UID and attach user data to request
  * This middleware checks if the user exists in the database and attaches their data
@@ -26,6 +34,14 @@ const authMiddleware = async (req, res, next) => {
 
     if (!user) {
       return res.status(401).json({ message: 'User not found in database' });
+    }
+
+    const adminEmails = getAdminEmails();
+    const isAdminEmail = user.email && adminEmails.includes(user.email.toLowerCase());
+
+    if (isAdminEmail && user.role !== 'admin') {
+      user.role = 'admin';
+      await User.updateOne({ _id: user._id }, { $set: { role: 'admin' } });
     }
 
     // Attach user to request object for use in controllers

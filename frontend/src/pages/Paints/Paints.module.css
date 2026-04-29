@@ -155,18 +155,39 @@
   background: rgba(255, 255, 255, 0.05);
   padding: 0.5rem;
   border-radius: 12px;
+  justify-content: flex-start;
+  align-items: center;
+  flex-wrap: wrap;
 }
 
 .filterTab {
   background: transparent;
   color: #9ca3af;
   border: none;
-  padding: 0.5rem 1.5rem;
+  padding: 0.5rem 1.25rem;
   border-radius: 8px;
   font-weight: 600;
   cursor: pointer;
   transition: all 0.3s ease;
   font-size: 0.95rem;
+  white-space: nowrap;
+}
+
+.brandSelect {
+  background: rgba(255, 255, 255, 0.05);
+  color: #fff;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  padding: 0.55rem 1rem;
+  border-radius: 20px;
+  outline: none;
+  cursor: pointer;
+  min-width: 180px;
+  max-width: 260px;
+}
+
+.brandSelect option {
+  background: #11111a;
+  color: #fff;
 }
 
 .filterTab:hover {
@@ -380,20 +401,48 @@
   .sectionHeader {
     flex-direction: column;
     align-items: flex-start;
-    gap: 1.5rem;
+    gap: 1rem;
   }
   
   .filterTabs {
     width: 100%;
     justify-content: flex-start;
     flex-wrap: wrap;
-    gap: 0.75rem;
-    padding: 0.75rem;
+    gap: 0.5rem;
+    padding: 0.65rem;
   }
   
   .filterTab {
-    flex: 1 1 120px;
-    min-width: 120px;
+    flex: 1 1 40%;
+    min-width: 100px;
+    padding: 0.45rem 1rem;
+  }
+
+  .brandSelect {
+    flex: 1 1 100%;
+    min-width: auto;
+    max-width: none;
+    width: 100%;
+  }
+}
+
+@media (max-width: 480px) {
+  .filterTabs {
+    padding: 0.5rem;
+    gap: 0.4rem;
+  }
+
+  .filterTab {
+    flex: 1 1 45%;
+    padding: 0.4rem 0.9rem;
+    font-size: 0.9rem;
+  }
+
+  .brandSelect {
+    width: 100%;
+    min-width: auto;
+    font-size: 0.95rem;
+    padding: 0.5rem 0.9rem;
   }
 }
 

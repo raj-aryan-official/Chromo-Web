@@ -16,6 +16,9 @@ if (!API_URL) {
  */
 export const getProducts = async (token) => {
   try {
+    if (!token) {
+      throw new Error('Authentication token required');
+    }
     const response = await fetch(`${API_URL}/api/products`, {
       method: 'GET',
       headers: {
@@ -116,6 +119,9 @@ export const deleteProduct = async (token, productId) => {
  */
 export const getAllOrders = async (token) => {
   try {
+    if (!token) {
+      throw new Error('Authentication token required');
+    }
     const response = await fetch(`${API_URL}/api/admin/orders`, {
       method: 'GET',
       headers: {
@@ -124,8 +130,11 @@ export const getAllOrders = async (token) => {
       }
     });
 
-    if (!response.ok) throw new Error('Failed to fetch orders');
-    return await response.json();
+    const data = await response.json();
+    if (!response.ok) {
+      throw new Error(data.message || `Failed to fetch orders (${response.status})`);
+    }
+    return data;
   } catch (error) {
     console.error('Error fetching orders:', error);
     throw error;
@@ -137,6 +146,9 @@ export const getAllOrders = async (token) => {
  */
 export const updateOrderStatus = async (token, orderId, status) => {
   try {
+    if (!token) {
+      throw new Error('Authentication token required');
+    }
     const response = await fetch(`${API_URL}/api/admin/orders/${orderId}/status`, {
       method: 'PUT',
       headers: {
@@ -162,6 +174,9 @@ export const updateOrderStatus = async (token, orderId, status) => {
  */
 export const getOrderStats = async (token) => {
   try {
+    if (!token) {
+      throw new Error('Authentication token required');
+    }
     const response = await fetch(`${API_URL}/api/admin/stats`, {
       method: 'GET',
       headers: {
@@ -170,8 +185,11 @@ export const getOrderStats = async (token) => {
       }
     });
 
-    if (!response.ok) throw new Error('Failed to fetch statistics');
-    return await response.json();
+    const data = await response.json();
+    if (!response.ok) {
+      throw new Error(data.message || `Failed to fetch statistics (${response.status})`);
+    }
+    return data;
   } catch (error) {
     console.error('Error fetching statistics:', error);
     throw error;

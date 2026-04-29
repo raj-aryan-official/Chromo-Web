@@ -128,16 +128,6 @@ const Paints = () => {
                 value={filterBrand} 
                 onChange={(e) => setFilterBrand(e.target.value)}
                 className={styles.brandSelect}
-                style={{
-                  background: 'rgba(5, 5, 12, 0.9)',
-                  color: '#fff',
-                  border: '1px solid rgba(255, 255, 255, 0.1)',
-                  padding: '8px 16px',
-                  borderRadius: '20px',
-                  marginLeft: 'auto',
-                  outline: 'none',
-                  cursor: 'pointer'
-                }}
               >
                 {availableBrands.map(b => <option key={b} value={b} style={{background: '#11111a', color: '#fff'}}>{b}</option>)}
               </select>

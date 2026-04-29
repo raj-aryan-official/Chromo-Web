@@ -1,14 +1,28 @@
 const User = require('../models/User');
 const Product = require('../models/Product');
 
+const getAdminEmails = () => {
+  const envEmails = process.env.ADMIN_EMAILS || 'rajaryan620666@gmail.com';
+  return envEmails
+    .split(',')
+    .map((email) => email.trim().toLowerCase())
+    .filter(Boolean);
+};
+
 const registerUser = async (req, res) => {
   try {
     console.log("=== Incoming register payload ===", req.body);
     const { firebaseUid, name, email, phone, altPhone, address } = req.body;
-    
+    const adminEmails = getAdminEmails();
+    const shouldBeAdmin = email && adminEmails.includes(email.toLowerCase());
+
     let user = await User.findOne({ firebaseUid });
     if (user) {
       console.log("Found user by firebaseUid", user.email);
+      if (shouldBeAdmin && user.role !== 'admin') {
+        await User.updateOne({ _id: user._id }, { $set: { role: 'admin' } });
+        user.role = 'admin';
+      }
       return res.status(200).json(user);
     }
 
@@ -16,8 +30,13 @@ const registerUser = async (req, res) => {
       let existingEmail = await User.findOne({ email });
       if (existingEmail) {
         console.log("Found existing user by email, syncing firebaseUid", email);
-        await User.updateOne({ _id: existingEmail._id }, { $set: { firebaseUid } });
+        const updatedRole = shouldBeAdmin ? 'admin' : existingEmail.role;
+        await User.updateOne(
+          { _id: existingEmail._id },
+          { $set: { firebaseUid, role: updatedRole } }
+        );
         existingEmail.firebaseUid = firebaseUid;
+        existingEmail.role = updatedRole;
         return res.status(200).json(existingEmail);
       }
     }
@@ -36,6 +55,7 @@ const registerUser = async (req, res) => {
       email: email || 'no-email@fallback.com', 
       phone: safePhone,
       altPhone: altPhone || '',
+      role: shouldBeAdmin ? 'admin' : 'user',
       addresses: initialAddresses 
     });
     
@@ -52,10 +72,17 @@ const registerUser = async (req, res) => {
 const getUserProfile = async (req, res) => {
   try {
     const { uid } = req.params;
-    const user = await User.findOne({ firebaseUid: uid }).populate('likedPaints');
+    let user = await User.findOne({ firebaseUid: uid }).populate('likedPaints');
     
     if (!user) {
       return res.status(404).json({ message: 'User not found in MongoDB' });
+    }
+
+    const adminEmails = getAdminEmails();
+    const shouldBeAdmin = user.email && adminEmails.includes(user.email.toLowerCase());
+    if (shouldBeAdmin && user.role !== 'admin') {
+      await User.updateOne({ _id: user._id }, { $set: { role: 'admin' } });
+      user.role = 'admin';
     }
     
     res.json(user);
