@@ -9,6 +9,7 @@ if (!API_URL) {
   console.error(
     'VITE_API_URL is not defined. Add VITE_API_URL to frontend/.env or frontend/.env.production.'
   );
+}
 
 /**
  * Get all products
