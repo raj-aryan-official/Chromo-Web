@@ -3,6 +3,7 @@ import { useAuth } from '../../context/AuthContext';
 import { useNavigate, Link } from 'react-router-dom';
 import AdminProducts from '../../components/AdminProducts';
 import AdminOrders from '../../components/AdminOrders';
+import API_URL from '../../config';
 import './AdminDashboard.css';
 
 function AdminDashboard() {
@@ -13,12 +14,10 @@ function AdminDashboard() {
   const [ordersCount, setOrdersCount] = useState('—');
   const [usersCount, setUsersCount] = useState('—');
 
-  const API = import.meta.env.VITE_API_URL || 'http://localhost:5000';
-
   useEffect(() => {
     if (currentUser) {
-      fetch(`${API}/api/products`).then(r => r.json()).then(d => setProductsCount(Array.isArray(d) ? d.length : '—')).catch(() => {});
-      fetch(`${API}/api/orders/all`).then(r => r.json()).then(d => setOrdersCount(Array.isArray(d) ? d.length : '—')).catch(() => {});
+      fetch(`${API_URL}/api/products`).then(r => r.json()).then(d => setProductsCount(Array.isArray(d) ? d.length : '—')).catch(() => {});
+      fetch(`${API_URL}/api/orders/all`).then(r => r.json()).then(d => setOrdersCount(Array.isArray(d) ? d.length : '—')).catch(() => {});
     }
   }, [currentUser]);
 

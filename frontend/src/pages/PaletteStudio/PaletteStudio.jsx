@@ -4,6 +4,7 @@ import Footer from '../../components/common/Footer/Footer';
 import { Paintbrush, Save, Layout, Droplet, Plus, CheckCircle2, Wand2, Calculator, ArrowRight, Camera } from 'lucide-react';
 import { useAuth } from '../../context/AuthContext';
 import { useNavigate } from 'react-router-dom';
+import API_URL from '../../config';
 import styles from './PaletteStudio.module.css';
 
 // Utility to generate harmonies
@@ -48,7 +49,7 @@ const PaletteStudio = () => {
     
     setSaving(true);
     try {
-      const res = await fetch(`${import.meta.env.VITE_API_URL || 'http://localhost:5000'}/api/users/${currentUser.uid}/palette`, {
+      const res = await fetch(`${API_URL}/api/users/${currentUser.uid}/palette`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ name: 'My Custom Palette', colors: selectedColors })

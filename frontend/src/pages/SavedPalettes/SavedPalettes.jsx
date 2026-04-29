@@ -3,6 +3,7 @@ import Navbar from '../../components/common/Navbar/Navbar';
 import Footer from '../../components/common/Footer/Footer';
 import { Palette, Loader2 } from 'lucide-react';
 import { useAuth } from '../../context/AuthContext';
+import API_URL from '../../config';
 import styles from './SavedPalettes.module.css';
 
 const SavedPalettes = () => {
@@ -12,7 +13,7 @@ const SavedPalettes = () => {
 
   useEffect(() => {
     if (!currentUser) return;
-    fetch(`${import.meta.env.VITE_API_URL || 'http://localhost:5000'}/api/users/${currentUser.uid}`)
+    fetch(`${API_URL}/api/users/${currentUser.uid}`)
       .then(res => res.json())
       .then(data => {
         setPalettes(data.savedPalettes || []);

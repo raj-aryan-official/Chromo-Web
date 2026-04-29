@@ -8,19 +8,35 @@ const adminRoutes = require('./routes/adminRoutes');
 
 const app = express();
 
-// CORS Configuration for both localhost and production
+const allowedOrigins = [
+  'http://localhost:5173',
+  'http://localhost:3000',
+  'https://newchromo.netlify.app',
+  'https://www.newchromo.netlify.app',
+];
+
+const extraOrigins = process.env.CLIENT_URLS
+  ? process.env.CLIENT_URLS.split(',').map((url) => url.trim()).filter(Boolean)
+  : [];
+
 const corsOptions = {
   origin: function (origin, callback) {
-    // During active testing, let's log the origin to see what the phone is sending
-    console.log("Incoming request origin:", origin);
-    
-    // For local development on phones, it's safer to just allow all origins
-    // or you can revert to the regex if you prefer strict security
-    callback(null, true);
+    if (!origin) {
+      return callback(null, true);
+    }
+
+    const normalizedOrigin = origin.toLowerCase();
+    const validOrigins = [...allowedOrigins, ...extraOrigins].map((url) => url.toLowerCase());
+
+    if (validOrigins.includes(normalizedOrigin)) {
+      return callback(null, true);
+    }
+
+    return callback(new Error('CORS policy does not allow access from origin: ' + origin));
   },
   credentials: true,
   methods: ['GET', 'POST', 'PUT', 'DELETE', 'PATCH', 'OPTIONS'],
-  allowedHeaders: ['Content-Type', 'Authorization']
+  allowedHeaders: ['Content-Type', 'Authorization'],
 };
 
 // Middlewares

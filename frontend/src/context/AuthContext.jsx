@@ -1,5 +1,6 @@
 import React, { createContext, useContext, useState, useEffect } from 'react';
 import { getAuth, onAuthStateChanged } from 'firebase/auth';
+import API_URL from '../config';
 
 const AuthContext = createContext();
 
@@ -15,9 +16,7 @@ export function AuthProvider({ children }) {
   // Fetch user role directly by UID — works even without phone field
   const fetchUserRole = async (firebaseUid) => {
     try {
-      const response = await fetch(
-        `${import.meta.env.VITE_API_URL || 'http://localhost:5000'}/api/users/${firebaseUid}`
-      );
+      const response = await fetch(`${API_URL}/api/users/${firebaseUid}`);
       if (response.ok) {
         const userData = await response.json();
         setUserRole(userData.role || 'user');

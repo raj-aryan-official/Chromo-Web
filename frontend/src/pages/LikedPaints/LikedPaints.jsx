@@ -4,6 +4,7 @@ import Navbar from '../../components/common/Navbar/Navbar';
 import Footer from '../../components/common/Footer/Footer';
 import { Heart, Loader2 } from 'lucide-react';
 import { useAuth } from '../../context/AuthContext';
+import API_URL from '../../config';
 import styles from './LikedPaints.module.css';
 
 const LikedPaints = () => {
@@ -17,7 +18,7 @@ const LikedPaints = () => {
       navigate('/login');
       return;
     }
-    fetch(`${import.meta.env.VITE_API_URL || 'http://localhost:5000'}/api/users/${currentUser.uid}`)
+    fetch(`${API_URL}/api/users/${currentUser.uid}`)
       .then(res => res.json())
       .then(data => {
         setLikedPaints(data.likedPaints || []);
@@ -29,7 +30,7 @@ const LikedPaints = () => {
   const handleUnlike = async (productId) => {
     if(!currentUser) return;
     try {
-      await fetch(`${import.meta.env.VITE_API_URL || 'http://localhost:5000'}/api/users/${currentUser.uid}/like`, {
+      await fetch(`${API_URL}/api/users/${currentUser.uid}/like`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ productId })

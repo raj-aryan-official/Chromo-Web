@@ -1,9 +1,14 @@
+import API_URL from '../config';
+
 /**
  * Admin Service - API calls for admin operations
  * All requests include Authorization header with Firebase UID
  */
 
-const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:5000';
+if (!API_URL) {
+  console.error(
+    'VITE_API_URL is not defined. Add VITE_API_URL to frontend/.env or frontend/.env.production.'
+  );
 
 /**
  * Get all products
