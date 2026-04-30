@@ -63,8 +63,8 @@ const corsOptions = {
 // 🔥 IMPORTANT: CORS FIRST
 app.use(cors(corsOptions));
 
-// 🔥 Handle preflight requests
-app.options('*', cors(corsOptions));
+// 🔥 Handle preflight requests (Express 5 compatible matcher)
+app.options(/.*/, cors(corsOptions));
 
 app.use(express.json());
 
