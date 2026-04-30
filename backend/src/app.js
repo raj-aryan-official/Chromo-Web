@@ -13,6 +13,9 @@ const allowedOrigins = [
   'http://localhost:3000',
   'https://newchromo.netlify.app',
   'https://www.newchromo.netlify.app',
+  'https://chromo-web.vercel.app/',
+  'https://www.chromo-web.vercel.app/'
+
 ];
 
 const extraOrigins = process.env.CLIENT_URLS
