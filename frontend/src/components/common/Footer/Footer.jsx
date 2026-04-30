@@ -1,6 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { Paintbrush, MessageCircle, Camera, Code, Mail } from 'lucide-react';
+import { MessageCircle, Camera, Code, Mail } from 'lucide-react';
 import styles from './Footer.module.css';
 
 const Footer = () => {
@@ -12,9 +12,7 @@ const Footer = () => {
           {/* Brand Column */}
           <div className={styles.brandCol}>
             <Link to="/" className={styles.logoContainer}>
-              <div className={styles.logoIcon}>
-                <Paintbrush size={20} color="#fff" />
-              </div>
+              <img src="/logo.png" alt="Chromo logo" className={styles.logoImage} />
               <span className={styles.logoText}>Chromo</span>
             </Link>
             <p className={styles.description}>

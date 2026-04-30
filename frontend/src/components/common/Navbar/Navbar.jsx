@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { Link, useNavigate, useLocation } from 'react-router-dom';
 import { 
-  ShoppingCart, User, Paintbrush, Search, Package, Menu, X, 
+  ShoppingCart, User, Search, Package, Menu, X, 
   Mic, MicOff, Bell, Clock, Tag, Settings, LogOut, Heart, Shield, ShoppingBag
 } from 'lucide-react';
 import { useAuth } from '../../../context/AuthContext';
@@ -204,9 +204,7 @@ const Navbar = () => {
           </button>
 
           <Link to="/" className={styles.logoContainer}>
-            <div className={styles.logoIcon}>
-              <Paintbrush size={24} color="#05050c" />
-            </div>
+            <img src="/logo.png" alt="Chromo logo" className={styles.logoImage} />
             <span className={styles.logoText}>Chromo</span>
           </Link>
         </div>
@@ -370,9 +368,7 @@ const Navbar = () => {
         {/* ── Fixed Header ── */}
         <div className={styles.menuHeader}>
           <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
-            <div className={styles.logoIcon} style={{ width: 30, height: 30 }}>
-              <Paintbrush size={17} color="#05050c" />
-            </div>
+            <img src="/logo.png" alt="Chromo logo" className={styles.logoImageSmall} />
             <span style={{ fontWeight: 800, fontSize: '1.15rem', color: '#fff' }}>Chromo</span>
           </div>
           <button className={styles.closeMenuBtn} onClick={() => setIsMobileMenuOpen(false)} aria-label="Close menu">

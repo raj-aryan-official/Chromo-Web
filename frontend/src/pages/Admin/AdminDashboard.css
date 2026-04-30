@@ -1,4 +1,4 @@
-﻿/* ============================================
+/* ============================================
    CHROMO ADMIN DASHBOARD — Dark Theme
    Matches site color palette: #05050c, #00C9FF, #92FE9D
    ============================================ */
@@ -41,16 +41,11 @@
   text-decoration: none;
 }
 
-.admin-nav-logo-icon {
+.admin-nav-logo-image {
   width: 38px;
   height: 38px;
+  object-fit: contain;
   border-radius: 10px;
-  background: linear-gradient(135deg, #00C9FF, #92FE9D);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  box-shadow: 0 0 14px rgba(0, 201, 255, 0.4);
-  font-size: 1.2rem;
 }
 
 .admin-nav-title {

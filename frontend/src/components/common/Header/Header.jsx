@@ -157,9 +157,7 @@ const Header = () => {
           </button>
 
           <Link to="/" className={styles.logoContainer}>
-            <div className={styles.logoIcon}>
-              <Paintbrush size={24} color="#05050c" />
-            </div>
+            <img src="/logo.png" alt="Chromo logo" className={styles.logoImage} />
             <span className={styles.logoText}>Chromo</span>
           </Link>
         </div>

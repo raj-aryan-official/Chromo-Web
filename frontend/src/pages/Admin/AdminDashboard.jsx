@@ -56,7 +56,7 @@ function AdminDashboard() {
       {/* ── TOP NAV ──────────────────────────────────────── */}
       <nav className="admin-topnav">
         <Link to="/" className="admin-nav-brand">
-          <div className="admin-nav-logo-icon">🎨</div>
+          <img src="/logo.png" alt="Chromo logo" className="admin-nav-logo-image" />
           <span className="admin-nav-title">Chromo <span>Admin</span></span>
         </Link>
 

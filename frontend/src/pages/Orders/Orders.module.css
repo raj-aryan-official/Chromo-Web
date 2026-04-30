@@ -43,12 +43,16 @@
   display: flex;
   align-items: center;
   gap: 0.5rem;
+  width: 100%;
+  max-width: 520px;
 }
 
 .searchInputWrapper {
   position: relative;
   display: flex;
   align-items: center;
+  flex: 1;
+  min-width: 0;
 }
 .searchIcon {
   position: absolute;
@@ -62,7 +66,7 @@
   border: 1px solid rgba(255, 255, 255, 0.1);
   color: #fff;
   border-radius: 8px;
-  width: 350px;
+  width: 100%;
   transition: all 0.3s ease;
 }
 .searchInput:focus {
@@ -402,5 +406,22 @@
      flex-direction: column;
      align-items: flex-start;
      gap: 1.5rem;
+  }
+
+  .searchBox {
+    max-width: 100%;
+  }
+}
+
+@media (max-width: 600px) {
+  .searchBox {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 0.75rem;
+  }
+
+  .searchBtn {
+    width: 100%;
+    text-align: center;
   }
 }

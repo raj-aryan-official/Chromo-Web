@@ -57,10 +57,10 @@ const Home = () => {
   const fallbackBrandImage = 'https://images.unsplash.com/photo-1519710164239-da123dc03ef4?auto=format&fit=crop&w=800&q=80';
 
   const companies = [
-    { name: "Asian Paints", img: "https://images.unsplash.com/photo-1557682250-6e3573035c17?auto=format&fit=crop&w=600&q=80", bg: "#ffffff" },
-    { name: "Berger Paints", img: "https://images.unsplash.com/photo-1505693416388-ac5ce068fe85?auto=format&fit=crop&w=600&q=80", bg: "#ffffff" },
-    { name: "Nerolac", img: "https://images.unsplash.com/photo-1494526585095-c41746248156?auto=format&fit=crop&w=600&q=80", bg: "#ffffff" },
-    { name: "Dulux", img: "https://images.unsplash.com/photo-1581091215367-6dd70cc27444?auto=format&fit=crop&w=600&q=80", bg: "#ffffff" },
+    { name: "Asian Paints", img: "https://images.unsplash.com/photo-1557682250-6e3573035c17?auto=format&fit=crop&w=600&q=80" },
+    { name: "Berger Paints", img: "https://images.unsplash.com/photo-1505693416388-ac5ce068fe85?auto=format&fit=crop&w=600&q=80" },
+    { name: "Nerolac", img: "https://images.unsplash.com/photo-1494526585095-c41746248156?auto=format&fit=crop&w=600&q=80" },
+    { name: "Dulux", img: "https://images.unsplash.com/photo-1581091215367-6dd70cc27444?auto=format&fit=crop&w=600&q=80" },
   ];
 
   const types = [
@@ -135,7 +135,7 @@ const Home = () => {
           </div>
           <div className={styles.companyGrid}>
             {companies.map((company, idx) => (
-              <div key={idx} className={styles.companyCard} onClick={() => navigate('/paints')} style={{ background: company.bg || 'rgba(255,255,255,0.05)' }}>
+              <div key={idx} className={styles.companyCard} onClick={() => navigate('/paints')}>
                 <div className={styles.logoWrapper}>
                   <img
                     src={company.img}

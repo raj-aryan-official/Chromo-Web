@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Mail, Lock, User, UserPlus, AlertCircle, Paintbrush } from 'lucide-react';
+import { Mail, Lock, User, UserPlus, AlertCircle } from 'lucide-react';
 import { useNavigate, Link } from 'react-router-dom';
 import { createUserWithEmailAndPassword, updateProfile } from 'firebase/auth';
 import { auth } from '../../firebase';
@@ -107,10 +107,8 @@ const Register = () => {
 
       {/* App Logo and Brand - Amazon style */}
       <Link to="/" className={styles.logoOuter}>
-        <div className={styles.logoIconLarge}>
-          <Paintbrush size={32} color="#00C9FF" />
-        </div>
-        <span className={styles.logoTextLarge}>Chromo<span className={styles.logoSuffix}>.in</span></span>
+        <img src="/logo.png" alt="Chromo logo" className={styles.logoImageLarge} />
+        <span className={styles.logoTextLarge}>Chromo</span>
       </Link>
 
       <div className={styles.formCard}>
